@@ -6,7 +6,7 @@ public class Pilot {
 
     private Long id;
 
-    private boolean isAssociated;
+    private boolean associated;
 
     private User user;
 

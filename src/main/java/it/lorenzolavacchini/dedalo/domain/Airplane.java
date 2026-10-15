@@ -6,7 +6,7 @@ public abstract class Airplane {
 
     private String airplaneRegistrationNumber;
 
-    private boolean isAdvanced;
+    private boolean advanced;
 
     private String modelnName;
 }
