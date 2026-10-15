@@ -4,6 +4,8 @@ import java.time.LocalDate;
 
 public class PPR {
 
+    private Long id;
+
     private PPRState PPRState;
 
     private LocalDate creationDate;

@@ -5,6 +5,8 @@ import java.time.LocalTime;
 
 public class Flight {
 
+    private Long id;
+
     private LocalDate flightDate;
 
     private String departureAirfield;

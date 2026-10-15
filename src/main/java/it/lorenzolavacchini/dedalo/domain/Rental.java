@@ -5,6 +5,8 @@ import java.time.LocalDate;
 
 public class Rental {
 
+    private Long id;
+
     private LocalDate bookingDate;
 
     private LocalTime bookingTime;

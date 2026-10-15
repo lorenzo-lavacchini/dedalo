@@ -4,6 +4,8 @@ import java.util.List;
 
 public class Pilot {
 
+    private Long id;
+
     private boolean isAssociated;
 
     private User user;
