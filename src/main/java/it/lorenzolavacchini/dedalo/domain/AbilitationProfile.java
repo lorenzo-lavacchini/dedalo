@@ -10,9 +10,9 @@ public class AbilitationProfile {
 
     private LocalDate licenceExpirationDate;
 
-    private boolean hasTwoSeatsAbilitation;
+    private boolean twoSeatsAbilitation;
 
-    private boolean hasRadioAbilitation;
+    private boolean radioAbilitation;
 
-    private boolean hasAdvancedAbilitation;
+    private boolean advancedAbilitation;
 }
