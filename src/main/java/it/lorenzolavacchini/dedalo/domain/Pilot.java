@@ -1,22 +1,29 @@
 package it.lorenzolavacchini.dedalo.domain;
 
+import jakarta.persistence.*;
+
 import java.util.List;
 
+@Entity
 public class Pilot {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @Column(nullable = false)
     private boolean associated;
 
+    @OneToOne
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    private List<Payment> payments; //inizializzare in maniera Lazy! Oppure rimuoverlo proprio
-
-    private List<Rental> rentals; //inizializzare in maniera Lazy! Oppure rimuoverlo proprio
-
+    @OneToOne(mappedBy = "owner")
     private Logbook logbook;
 
+    @OneToOne(mappedBy = "owner")
     private AbilitationProfile abilitationProfile;
 
-    private PrivateAirplane ownedAirplanes;
+    @OneToMany(mappedBy = "owner")
+    private List<PrivateAirplane> ownedAirplanes;
 }

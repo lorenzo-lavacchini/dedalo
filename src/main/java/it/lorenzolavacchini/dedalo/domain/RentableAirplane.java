@@ -1,5 +1,6 @@
 package it.lorenzolavacchini.dedalo.domain;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.PrimaryKeyJoinColumn;
 
@@ -7,6 +8,7 @@ import jakarta.persistence.PrimaryKeyJoinColumn;
 @PrimaryKeyJoinColumn
 public class RentableAirplane extends Airplane {
 
+    @Column(nullable = false)
     private int hourlyRate;
 
 }
