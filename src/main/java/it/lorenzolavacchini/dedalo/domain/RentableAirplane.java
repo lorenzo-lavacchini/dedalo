@@ -11,6 +11,9 @@ public class RentableAirplane extends Airplane {
     @Column(nullable = false)
     private int hourlyRate;
 
+    @Column(nullable = false)
+    private boolean inOperation;
+
     public RentableAirplane(){
         super();
     }

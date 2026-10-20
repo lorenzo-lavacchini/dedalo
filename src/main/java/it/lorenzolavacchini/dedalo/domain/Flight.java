@@ -1,6 +1,8 @@
 package it.lorenzolavacchini.dedalo.domain;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -31,7 +33,12 @@ public class Flight {
     private String notes;
 
     @ManyToOne
-    @JoinColumn(name = "airplane_used_id", nullable = false)
+    @JoinColumn(name = "logbook_id", nullable = false)
+    private Logbook logbook;
+
+    @ManyToOne
+    @JoinColumn(name = "airplane_used_id")
+    @OnDelete(action = OnDeleteAction.SET_NULL)
     private Airplane airplaneUsed;
 
     public Flight(){

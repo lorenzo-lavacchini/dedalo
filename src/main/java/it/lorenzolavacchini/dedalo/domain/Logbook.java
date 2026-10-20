@@ -3,6 +3,7 @@ package it.lorenzolavacchini.dedalo.domain;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 public class Logbook {
@@ -17,6 +18,9 @@ public class Logbook {
     @OneToOne
     @JoinColumn(name = "owner_id", nullable = false)
     private Pilot owner;
+
+    @OneToMany(mappedBy = "logbook", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Flight> flights;
 
     public Logbook(){
 

@@ -24,10 +24,10 @@ public class User {
     @Column(nullable = false, length = 50)
     private String password;
 
-    @OneToOne(mappedBy = "user")
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private StaffMember staffMemberRole;
 
-    @OneToOne(mappedBy = "user")
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private Pilot pilotRole;
 
     public User(){

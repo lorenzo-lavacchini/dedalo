@@ -1,6 +1,8 @@
 package it.lorenzolavacchini.dedalo.domain;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.mapping.Join;
 
 import java.time.LocalDateTime;
@@ -33,11 +35,12 @@ public class Rental {
     private RentalState rentalState;
 
     @ManyToOne
-    @JoinColumn(name = "rentable_airplane_id", nullable = false)
+    @JoinColumn(name = "rentable_airplane_id")
+    @OnDelete(action = OnDeleteAction.SET_NULL)
     private RentableAirplane rentedAirplane;
 
     @ManyToOne
-    @JoinColumn(name = "renter_pilot_id", nullable = false)
+    @JoinColumn(name = "renter_pilot_id")
     private Pilot renterPilot;
 
     public Rental(){

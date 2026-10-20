@@ -18,10 +18,10 @@ public class Pilot {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @OneToOne(mappedBy = "owner")
+    @OneToOne(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true)
     private Logbook logbook;
 
-    @OneToOne(mappedBy = "owner")
+    @OneToOne(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true)
     private AbilitationProfile abilitationProfile;
 
     @OneToMany(mappedBy = "owner")
