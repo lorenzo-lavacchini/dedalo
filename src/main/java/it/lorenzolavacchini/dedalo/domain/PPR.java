@@ -3,6 +3,7 @@ package it.lorenzolavacchini.dedalo.domain;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 public class PPR {
@@ -14,10 +15,13 @@ public class PPR {
     @Enumerated(EnumType.STRING)
     private PPRState PPRState;
 
-    private LocalDate creationDate;
+    @Column(nullable = false)
+    private LocalDateTime createdAt;
 
+    @Column(nullable = false)
     private LocalDate arrivalDate;
 
+    @Column(nullable = false)
     private LocalDate departureDate;
 
     @Column(nullable = false, length = 50)
@@ -46,4 +50,7 @@ public class PPR {
     @JoinColumn(name = "user_id", nullable = false)
     private User creator;
 
+    public PPR(){
+
+    }
 }

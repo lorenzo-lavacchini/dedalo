@@ -3,6 +3,7 @@ package it.lorenzolavacchini.dedalo.domain;
 import jakarta.persistence.*;
 import org.hibernate.mapping.Join;
 
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.LocalDate;
 
@@ -13,14 +14,16 @@ public class Rental {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private LocalDate bookingDate;
+    @Column(nullable = false)
+    private LocalDateTime bookedAt;
 
-    private LocalTime bookingTime;
-
+    @Column(nullable = false)
     private LocalDate date;
 
+    @Column(nullable = false)
     private LocalTime startTime;
 
+    @Column(nullable = false)
     private LocalTime endTime;
 
     @Column(nullable = false)
@@ -36,5 +39,9 @@ public class Rental {
     @ManyToOne
     @JoinColumn(name = "pilot_id", nullable = false)
     private Pilot renterPilot;
+
+    public Rental(){
+
+    }
 
 }

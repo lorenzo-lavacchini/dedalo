@@ -12,6 +12,7 @@ public class Flight {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @Column(nullable = false)
     private LocalDate flightDate;
 
     @Column(nullable = false, length = 50)
@@ -20,15 +21,21 @@ public class Flight {
     @Column(nullable = false, length = 50)
     private String arrivalAirfield;
 
+    @Column(nullable = false)
     private LocalTime departureTime;
 
+    @Column(nullable = false)
     private LocalTime arrivalTime;
 
     @Column(nullable = false, length = 50)
     private String notes;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "airplane_id", nullable = false)
     private Airplane airplaneUsed;
+
+    public Flight(){
+
+    }
 
 }

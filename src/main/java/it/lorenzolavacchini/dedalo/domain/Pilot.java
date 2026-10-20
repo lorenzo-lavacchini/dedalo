@@ -26,4 +26,8 @@ public class Pilot {
 
     @OneToMany(mappedBy = "owner")
     private List<PrivateAirplane> ownedAirplanes;
+
+    public Pilot(){
+
+    }
 }

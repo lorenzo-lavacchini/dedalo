@@ -10,4 +10,8 @@ public class PrivateAirplane extends Airplane{
     @JoinColumn(name = "pilot_id", nullable = false)
     private Pilot owner;
 
+    public PrivateAirplane(){
+        super();
+    }
+
 }

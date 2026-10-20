@@ -29,4 +29,8 @@ public class User {
 
     @OneToOne(mappedBy = "user")
     private Pilot pilotRole;
+
+    public User(){
+
+    }
 }

@@ -1,14 +1,18 @@
 package it.lorenzolavacchini.dedalo.domain;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
-
-import java.time.LocalDate;
 
 @Entity
 @DiscriminatorValue("AssociationPayment")
 public class AssociationPayment extends Payment {
 
-    private java.time.Year yearOfAssociation;
+    @Column(nullable = false)
+    private java.time.Year associationYear;
+
+    public AssociationPayment(){
+
+    }
 
 }

@@ -2,6 +2,8 @@ package it.lorenzolavacchini.dedalo.domain;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(
@@ -19,4 +21,12 @@ public abstract class Payment {
 
     @Enumerated(EnumType.STRING)
     private PaymentState paymentState;
+
+    @Column(nullable = false)
+    private LocalDateTime createdAt;
+
+    public Payment(){
+
+    }
+
 }

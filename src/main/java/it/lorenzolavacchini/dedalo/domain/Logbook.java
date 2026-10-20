@@ -11,10 +11,15 @@ public class Logbook {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @Column(nullable = false)
     private LocalDate creationDate;
 
     @OneToOne
     @JoinColumn(name = "pilot_id", nullable = false)
     private Pilot owner;
+
+    public Logbook(){
+
+    }
 
 }

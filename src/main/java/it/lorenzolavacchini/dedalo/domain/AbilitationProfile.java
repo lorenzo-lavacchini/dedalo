@@ -14,6 +14,7 @@ public class AbilitationProfile {
     @Column(nullable = false)
     private String licenceNumber;
 
+    @Column(nullable = false)
     private LocalDate licenceExpirationDate;
 
     @Column(nullable = false)
@@ -28,4 +29,8 @@ public class AbilitationProfile {
     @OneToOne
     @JoinColumn(name = "pilot_id", nullable = false)
     private Pilot owner;
+
+    public AbilitationProfile() {
+
+    }
 }

@@ -11,12 +11,16 @@ public abstract class Airplane {
     private Long id;
 
     @Column(nullable = false, length = 6)
-    private String airplaneRegistrationNumber;
+    private String registrationNumber;
 
     @Column(nullable = false)
     private boolean advanced;
 
-    @Column(nullable = false, length = 30)
+    @Column(nullable = false, length = 50)
     private String modelName;
+
+    public Airplane(){
+
+    }
 
 }

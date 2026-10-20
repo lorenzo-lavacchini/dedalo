@@ -12,4 +12,8 @@ public class RentalPayment extends Payment{
     @OneToOne
     @JoinColumn(name = "rental_id")
     private Rental rental;
+
+    public RentalPayment(){
+        super();
+    }
 }
