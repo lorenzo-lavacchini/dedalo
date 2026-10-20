@@ -27,7 +27,7 @@ public class AbilitationProfile {
     private boolean advancedAbilitation;
 
     @OneToOne
-    @JoinColumn(name = "pilot_id", nullable = false)
+    @JoinColumn(name = "owner_id", nullable = false)
     private Pilot owner;
 
     public AbilitationProfile() {

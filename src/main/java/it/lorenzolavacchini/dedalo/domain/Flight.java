@@ -31,7 +31,7 @@ public class Flight {
     private String notes;
 
     @ManyToOne
-    @JoinColumn(name = "airplane_id", nullable = false)
+    @JoinColumn(name = "airplane_used_id", nullable = false)
     private Airplane airplaneUsed;
 
     public Flight(){

@@ -43,11 +43,11 @@ public class PPR {
     private int MTOW;
 
     @ManyToOne
-    @JoinColumn(name = "staff_member_id")
+    @JoinColumn(name = "handler_id")
     private StaffMember handler;
 
     @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "creator_id", nullable = false)
     private User creator;
 
     public PPR(){

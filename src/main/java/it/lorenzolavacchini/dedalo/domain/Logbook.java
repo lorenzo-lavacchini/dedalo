@@ -15,7 +15,7 @@ public class Logbook {
     private LocalDate creationDate;
 
     @OneToOne
-    @JoinColumn(name = "pilot_id", nullable = false)
+    @JoinColumn(name = "owner_id", nullable = false)
     private Pilot owner;
 
     public Logbook(){

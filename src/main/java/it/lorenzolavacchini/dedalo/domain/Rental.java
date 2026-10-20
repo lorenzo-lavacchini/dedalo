@@ -37,7 +37,7 @@ public class Rental {
     private RentableAirplane rentedAirplane;
 
     @ManyToOne
-    @JoinColumn(name = "pilot_id", nullable = false)
+    @JoinColumn(name = "renter_pilot_id", nullable = false)
     private Pilot renterPilot;
 
     public Rental(){
