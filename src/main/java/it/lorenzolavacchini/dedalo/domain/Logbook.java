@@ -19,7 +19,7 @@ public class Logbook {
     @JoinColumn(name = "owner_id", nullable = false)
     private Pilot owner;
 
-    @OneToMany(mappedBy = "logbook", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "logbook", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<Flight> flights;
 
     public Logbook(){

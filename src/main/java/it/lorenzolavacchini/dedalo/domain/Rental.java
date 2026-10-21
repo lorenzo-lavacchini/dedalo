@@ -34,13 +34,14 @@ public class Rental {
     @Enumerated(EnumType.STRING)
     private RentalState rentalState;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "rentable_airplane_id")
     @OnDelete(action = OnDeleteAction.SET_NULL)
     private RentableAirplane rentedAirplane;
 
     @ManyToOne
     @JoinColumn(name = "renter_pilot_id")
+    @OnDelete(action = OnDeleteAction.SET_NULL)
     private Pilot renterPilot;
 
     public Rental(){

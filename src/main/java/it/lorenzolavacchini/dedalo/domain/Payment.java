@@ -1,6 +1,8 @@
 package it.lorenzolavacchini.dedalo.domain;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.LocalDateTime;
 
@@ -24,6 +26,11 @@ public abstract class Payment {
 
     @Column(nullable = false)
     private LocalDateTime createdAt;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "pilot_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private Pilot pilot;
 
     public Payment(){
 

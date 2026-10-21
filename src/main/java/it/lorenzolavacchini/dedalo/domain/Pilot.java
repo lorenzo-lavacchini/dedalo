@@ -24,7 +24,7 @@ public class Pilot {
     @OneToOne(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true)
     private AbilitationProfile abilitationProfile;
 
-    @OneToMany(mappedBy = "owner")
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<PrivateAirplane> ownedAirplanes;
 
     public Pilot(){

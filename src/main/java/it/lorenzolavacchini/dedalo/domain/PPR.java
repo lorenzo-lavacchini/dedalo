@@ -42,11 +42,11 @@ public class PPR {
     @Column(nullable = false)
     private int MTOW;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "handler_id")
     private StaffMember handler;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "creator_id", nullable = false)
     private User creator;
 

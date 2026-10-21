@@ -36,7 +36,7 @@ public class Flight {
     @JoinColumn(name = "logbook_id", nullable = false)
     private Logbook logbook;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "airplane_used_id")
     @OnDelete(action = OnDeleteAction.SET_NULL)
     private Airplane airplaneUsed;
