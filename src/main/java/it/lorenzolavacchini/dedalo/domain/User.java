@@ -3,6 +3,7 @@ package it.lorenzolavacchini.dedalo.domain;
 import jakarta.persistence.*;
 
 @Entity
+@Table(name = "app_user")
 public class User {
 
     @Id
@@ -18,7 +19,7 @@ public class User {
     @Column(nullable = false, length = 50)
     private String telephone;
 
-    @Column(nullable = false, length = 50)
+    @Column(nullable = false, length = 50, unique = true)
     private String email;
 
     @Column(nullable = false, length = 50)
@@ -32,6 +33,16 @@ public class User {
 
     public User(){
 
+    }
+
+    public User(String name, String surname, String telephone, String email, String password){
+        this.setName(name);
+        this.setSurname(surname);
+        this.setTelephone(telephone);
+        this.setEmail(email);
+        this.setPassword(password);
+        this.setStaffMemberRole(null);
+        this.setPilotRole(null);
     }
 
     public Long getId() {
