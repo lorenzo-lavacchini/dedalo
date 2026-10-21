@@ -12,6 +12,8 @@ import java.time.LocalDateTime;
         name = "payment_type",
         discriminatorType = DiscriminatorType.STRING
 )
+//NOTA: cancellazione di istanze di classe astratta o classi derivate non portano problemi e non necessitano di annotazioni particolari.
+//Questo perché tutte le istanze stanno in un'unica tabella, e quindi non si vengono a creare problemi con le associazioni e le foreign key.
 public abstract class Payment {
 
     @Id
