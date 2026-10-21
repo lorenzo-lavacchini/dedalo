@@ -45,4 +45,75 @@ public class Flight {
 
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public LocalDate getFlightDate() {
+        return flightDate;
+    }
+
+    public void setFlightDate(LocalDate flightDate) {
+        this.flightDate = flightDate;
+    }
+
+    public String getDepartureAirfield() {
+        return departureAirfield;
+    }
+
+    public void setDepartureAirfield(String departureAirfield) {
+        this.departureAirfield = departureAirfield;
+    }
+
+    public String getArrivalAirfield() {
+        return arrivalAirfield;
+    }
+
+    public void setArrivalAirfield(String arrivalAirfield) {
+        this.arrivalAirfield = arrivalAirfield;
+    }
+
+    public LocalTime getDepartureTime() {
+        return departureTime;
+    }
+
+    public void setDepartureTime(LocalTime departureTime) {
+        this.departureTime = departureTime;
+    }
+
+    public LocalTime getArrivalTime() {
+        return arrivalTime;
+    }
+
+    public void setArrivalTime(LocalTime arrivalTime) {
+        this.arrivalTime = arrivalTime;
+    }
+
+    public String getNotes() {
+        return notes;
+    }
+
+    public void setNotes(String notes) {
+        this.notes = notes;
+    }
+
+    public Logbook getLogbook() {
+        return logbook;
+    }
+
+    public void setLogbook(Logbook logbook) {
+        this.logbook = logbook;
+    }
+
+    public Airplane getAirplaneUsed() {
+        return airplaneUsed;
+    }
+
+    public void setAirplaneUsed(Airplane airplaneUsed) {
+        this.airplaneUsed = airplaneUsed;
+    }
 }

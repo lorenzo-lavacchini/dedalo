@@ -33,4 +33,68 @@ public class User {
     public User(){
 
     }
+
+    public Long getId() {
+        return Id;
+    }
+
+    public void setId(Long id) {
+        Id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+
+    public String getTelephone() {
+        return telephone;
+    }
+
+    public void setTelephone(String telephone) {
+        this.telephone = telephone;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public StaffMember getStaffMemberRole() {
+        return staffMemberRole;
+    }
+
+    public void setStaffMemberRole(StaffMember staffMemberRole) {
+        this.staffMemberRole = staffMemberRole;
+    }
+
+    public Pilot getPilotRole() {
+        return pilotRole;
+    }
+
+    public void setPilotRole(Pilot pilotRole) {
+        this.pilotRole = pilotRole;
+    }
 }

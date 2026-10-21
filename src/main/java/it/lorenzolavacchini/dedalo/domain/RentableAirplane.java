@@ -21,4 +21,19 @@ public class RentableAirplane extends Airplane {
         super();
     }
 
+    public int getHourlyRate() {
+        return hourlyRate;
+    }
+
+    public void setHourlyRate(int hourlyRate) {
+        this.hourlyRate = hourlyRate;
+    }
+
+    public boolean isInOperation() {
+        return inOperation;
+    }
+
+    public void setInOperation(boolean inOperation) {
+        this.inOperation = inOperation;
+    }
 }

@@ -21,4 +21,12 @@ public class RentalPayment extends Payment{
     public RentalPayment(){
         super();
     }
+
+    public Rental getRental() {
+        return rental;
+    }
+
+    public void setRental(Rental rental) {
+        this.rental = rental;
+    }
 }

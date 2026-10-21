@@ -17,4 +17,11 @@ public class PrivateAirplane extends Airplane{
         super();
     }
 
+    public Pilot getOwner() {
+        return owner;
+    }
+
+    public void setOwner(Pilot owner) {
+        this.owner = owner;
+    }
 }

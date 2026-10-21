@@ -33,4 +33,60 @@ public class AbilitationProfile {
     public AbilitationProfile() {
 
     }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getLicenceNumber() {
+        return licenceNumber;
+    }
+
+    public void setLicenceNumber(String licenceNumber) {
+        this.licenceNumber = licenceNumber;
+    }
+
+    public LocalDate getLicenceExpirationDate() {
+        return licenceExpirationDate;
+    }
+
+    public void setLicenceExpirationDate(LocalDate licenceExpirationDate) {
+        this.licenceExpirationDate = licenceExpirationDate;
+    }
+
+    public boolean isTwoSeatsAbilitation() {
+        return twoSeatsAbilitation;
+    }
+
+    public void setTwoSeatsAbilitation(boolean twoSeatsAbilitation) {
+        this.twoSeatsAbilitation = twoSeatsAbilitation;
+    }
+
+    public boolean isRadioAbilitation() {
+        return radioAbilitation;
+    }
+
+    public void setRadioAbilitation(boolean radioAbilitation) {
+        this.radioAbilitation = radioAbilitation;
+    }
+
+    public boolean isAdvancedAbilitation() {
+        return advancedAbilitation;
+    }
+
+    public void setAdvancedAbilitation(boolean advancedAbilitation) {
+        this.advancedAbilitation = advancedAbilitation;
+    }
+
+    public Pilot getOwner() {
+        return owner;
+    }
+
+    public void setOwner(Pilot owner) {
+        this.owner = owner;
+    }
 }

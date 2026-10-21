@@ -4,6 +4,8 @@ import jakarta.persistence.Column;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 
+import java.time.Year;
+
 @Entity
 @DiscriminatorValue("AssociationPayment")
 public class AssociationPayment extends Payment {
@@ -15,4 +17,11 @@ public class AssociationPayment extends Payment {
 
     }
 
+    public Year getAssociationYear() {
+        return associationYear;
+    }
+
+    public void setAssociationYear(Year associationYear) {
+        this.associationYear = associationYear;
+    }
 }
