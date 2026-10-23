@@ -3,7 +3,7 @@ package it.lorenzolavacchini.dedalo.domain;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "user")
+@Table(name = "user_table")
 public class User {
 
     @Id
@@ -31,7 +31,7 @@ public class User {
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private Pilot pilotRole;
 
-    @OneToOne(mappedBy = "admin", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private Admin adminRole;
 
     public User(){
@@ -45,6 +45,7 @@ public class User {
         this.setEmail(email);
         this.setPassword(password);
         this.setStaffMemberRole(null);
+        this.setPilotRole(null);
         this.setPilotRole(null);
     }
 
@@ -110,5 +111,13 @@ public class User {
 
     public void setPilotRole(Pilot pilotRole) {
         this.pilotRole = pilotRole;
+    }
+
+    public Admin getAdminRole(){
+        return adminRole;
+    }
+
+    public void setAdminRole(Admin adminRole){
+        this.adminRole = adminRole;
     }
 }
