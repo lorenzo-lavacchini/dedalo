@@ -8,7 +8,7 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long Id;
+    private Long id;
 
     @Column(nullable = false, length = 50)
     private String name;
@@ -31,6 +31,9 @@ public class User {
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private Pilot pilotRole;
 
+    @OneToOne(mappedBy = "admin", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Admin adminRole;
+
     public User(){
 
     }
@@ -46,11 +49,11 @@ public class User {
     }
 
     public Long getId() {
-        return Id;
+        return id;
     }
 
     public void setId(Long id) {
-        Id = id;
+        this.id = id;
     }
 
     public String getName() {
