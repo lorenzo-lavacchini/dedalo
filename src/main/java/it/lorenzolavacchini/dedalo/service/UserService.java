@@ -37,12 +37,12 @@ public class UserService {
 
         if(userRequestDTO.getName().isBlank() || userRequestDTO.getSurname().isBlank() || userRequestDTO.getTelephone().isBlank()
                 || userRequestDTO.getEmail().isBlank() || userRequestDTO.getPassword().isBlank()){
-            throw new IllegalArgumentException("Mancano dati obbligatori");
+            throw new IllegalArgumentException("Lack of necessary data");
         }
 
         //Controlla che non esista già un utente creato con quell'email
         if(userRepository.existsByEmail(userRequestDTO.getEmail())){
-            throw new IllegalArgumentException("Esiste già un utente registrato con questa email");
+            throw new IllegalArgumentException("Email already used");
         }
 
         User user = new User(userRequestDTO.getName(), userRequestDTO.getSurname(), userRequestDTO.getTelephone(), userRequestDTO.getEmail(), userRequestDTO.getPassword());
