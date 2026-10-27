@@ -23,4 +23,6 @@ public class AdminService {
         adminRepository.save(admin);
         return admin;
     }
+
+
 }
