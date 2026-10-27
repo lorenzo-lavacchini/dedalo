@@ -2,14 +2,17 @@ package it.lorenzolavacchini.dedalo.service;
 
 import it.lorenzolavacchini.dedalo.domain.Admin;
 import it.lorenzolavacchini.dedalo.domain.User;
-import it.lorenzolavacchini.dedalo.dto.UserDTO;
+import it.lorenzolavacchini.dedalo.dto.user.UserRequestDTO;
+import it.lorenzolavacchini.dedalo.dto.user.UserResponseDTO;
 import it.lorenzolavacchini.dedalo.exception.UserAlreadyAdminException;
 import it.lorenzolavacchini.dedalo.exception.UserNotFoundException;
+import it.lorenzolavacchini.dedalo.mapper.UserMapper;
 import it.lorenzolavacchini.dedalo.repository.AdminRepository;
 import it.lorenzolavacchini.dedalo.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -19,28 +22,30 @@ public class UserService {
     private final AdminRepository adminRepository;
     private final PilotService pilotService;
     private final AdminService adminService;
+    private final UserMapper userMapper;
 
-    public UserService(UserRepository userRepository, AdminRepository adminRepository, PilotService pilotService, AdminService adminService){
+    public UserService(UserRepository userRepository, AdminRepository adminRepository, PilotService pilotService, AdminService adminService, UserMapper userMapper){
         this.userRepository = userRepository;
         this.adminRepository = adminRepository;
         this.pilotService = pilotService;
         this.adminService = adminService;
+        this.userMapper = userMapper;
     }
 
     @Transactional
-    public User createUser(UserDTO userDTO){
+    public User createUser(UserRequestDTO userRequestDTO){
 
-        if(userDTO.getName().isBlank() || userDTO.getSurname().isBlank() || userDTO.getTelephone().isBlank()
-                || userDTO.getEmail().isBlank() || userDTO.getPassword().isBlank()){
+        if(userRequestDTO.getName().isBlank() || userRequestDTO.getSurname().isBlank() || userRequestDTO.getTelephone().isBlank()
+                || userRequestDTO.getEmail().isBlank() || userRequestDTO.getPassword().isBlank()){
             throw new IllegalArgumentException("Mancano dati obbligatori");
         }
 
         //Controlla che non esista già un utente creato con quell'email
-        if(userRepository.existsByEmail(userDTO.getEmail())){
+        if(userRepository.existsByEmail(userRequestDTO.getEmail())){
             throw new IllegalArgumentException("Esiste già un utente registrato con questa email");
         }
 
-        User user = new User(userDTO.getName(), userDTO.getSurname(), userDTO.getTelephone(), userDTO.getEmail(), userDTO.getPassword());
+        User user = new User(userRequestDTO.getName(), userRequestDTO.getSurname(), userRequestDTO.getTelephone(), userRequestDTO.getEmail(), userRequestDTO.getPassword());
         userRepository.save(user);
         return user;
     }
@@ -63,18 +68,44 @@ public class UserService {
         return user;
     }
 
+    public User getById(Long id){
 
-    public User getReferenceById(Long id){
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException("User not found"));
+
         return userRepository.getReferenceById(id);
     }
 
-    public List<User> getAll(){
-        return userRepository.findAll();
+    public UserResponseDTO getDTOById(Long id){
+
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException("User not found"));
+
+        UserResponseDTO userResponseDTO = userMapper.toUserResponseDTO(user);
+
+        return userResponseDTO;
     }
 
+    public List<UserResponseDTO> getAll(){
+
+        List<User> users = userRepository.findAll();
+
+        List<UserResponseDTO> usersDTO = new ArrayList<>();
+
+        if(users.isEmpty()){
+            return usersDTO ;
+        }
+
+        for (User user : users){
+            usersDTO.add(userMapper.toUserResponseDTO(user));
+        }
+
+        return usersDTO;
+
+    }
 
     @Transactional
-    public void deleteUser(Long id){
+    public void delete(Long id){
 
         if(!userRepository.existsById(id)){
             throw new UserNotFoundException("User not found");

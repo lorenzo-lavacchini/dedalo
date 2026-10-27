@@ -1,10 +1,10 @@
-package it.lorenzolavacchini.dedalo.dto;
+package it.lorenzolavacchini.dedalo.dto.user;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
-public class UserDTO {
+public class UserRequestDTO {
 
     @NotNull(message = "L'ID è obbligatorio")
     private Long id;
@@ -29,9 +29,9 @@ public class UserDTO {
     @Size(min = 6, max = 50)
     private String password;
 
-    public UserDTO() {}
+    public UserRequestDTO() {}
 
-    public UserDTO(Long id, String name, String surname, String telephone, String email, String password) {
+    public UserRequestDTO(Long id, String name, String surname, String telephone, String email, String password) {
         this.id = id;
         this.name = name;
         this.surname = surname;
