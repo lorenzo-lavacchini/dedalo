@@ -1,9 +1,11 @@
 package it.lorenzolavacchini.dedalo.dto.user;
 
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
+@JsonPropertyOrder({"id","name","surname","telephone","email","staffMember","pilot","admin"})
 public class UserResponseDTO {
 
     private Long id;
