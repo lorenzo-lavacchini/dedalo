@@ -1,8 +1,6 @@
 package it.lorenzolavacchini.dedalo.config;
 
-import it.lorenzolavacchini.dedalo.exception.EmailAlreadyUsedException;
-import it.lorenzolavacchini.dedalo.exception.UserAlreadyAdminException;
-import it.lorenzolavacchini.dedalo.exception.UserNotFoundException;
+import it.lorenzolavacchini.dedalo.exception.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -30,11 +28,16 @@ public class GlobalExceptionHandler {
         return buildResponse(HttpStatus.CONFLICT, "Conflict", ex.getMessage());
     }
 
-    /* 3. Gestore per la LOGICA DI BUSINESS ERRATA (es. Credito insufficiente - Errore 400 Bad Request)
-    @ExceptionHandler(InvalidOperationException.class)
-    public ResponseEntity<Object> handleInvalidOperation(InvalidOperationException ex) {
+    @ExceptionHandler(NotAllowedAdvancedAbilitationException.class)
+    public ResponseEntity<Object> handleInvalidOperation(NotAllowedAdvancedAbilitationException ex) {
         return buildResponse(HttpStatus.BAD_REQUEST, "Bad Request", ex.getMessage());
-    }*/
+    }
+
+    @ExceptionHandler(NotAllowedRadioAbilitationException.class)
+    public ResponseEntity<Object> handleInvalidOperation(NotAllowedRadioAbilitationException ex) {
+        return buildResponse(HttpStatus.BAD_REQUEST, "Bad Request", ex.getMessage());
+    }
+
 
     // 4. IL "PARACADUTE": Gestisce qualsiasi altra eccezione imprevista (Errore 500)
     // Evita di mostrare log di sistema al client, ma risponde in modo pulito

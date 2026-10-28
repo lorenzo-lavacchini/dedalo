@@ -5,6 +5,7 @@ import it.lorenzolavacchini.dedalo.domain.Logbook;
 import it.lorenzolavacchini.dedalo.domain.Pilot;
 import it.lorenzolavacchini.dedalo.domain.User;
 import it.lorenzolavacchini.dedalo.dto.abilitationprofile.AbilitationProfileRequestDTO;
+import it.lorenzolavacchini.dedalo.mapper.AbilitationProfileMapper;
 import it.lorenzolavacchini.dedalo.repository.PilotRepository;
 import org.springframework.stereotype.Service;
 
@@ -12,19 +13,23 @@ import org.springframework.stereotype.Service;
 public class PilotService {
 
     private final PilotRepository pilotRepository;
+    private final AbilitationProfileService abilitationProfileService;
+    private final AbilitationProfileMapper abilitationProfileMapper;
 
-    public PilotService(PilotRepository pilotRepository){
+    public PilotService(PilotRepository pilotRepository, AbilitationProfileService abilitationProfileService, AbilitationProfileMapper abilitationProfileMapper){
         this.pilotRepository = pilotRepository;
+        this.abilitationProfileService = abilitationProfileService;
+        this.abilitationProfileMapper = abilitationProfileMapper;
     }
 
     public Pilot create(User user, AbilitationProfileRequestDTO abilitationProfileRequestDTO){
 
 
-
-
         Pilot pilotRole = new Pilot(user);
         Logbook logbook = new Logbook();
-        AbilitationProfile abilitationProfile = new AbilitationProfile();
+
+        AbilitationProfile abilitationProfile = abilitationProfileMapper.toEntity(abilitationProfileRequestDTO);
+        abilitationProfileService.validateAbilitations(abilitationProfile);
 
         logbook.setOwner(pilotRole);
         abilitationProfile.setOwner(pilotRole);
@@ -33,11 +38,6 @@ public class PilotService {
         pilotRole.setAbilitationProfile(abilitationProfile);
 
         user.setPilotRole(pilotRole);
-
-
-
-
-
         return pilotRole;
 
     }

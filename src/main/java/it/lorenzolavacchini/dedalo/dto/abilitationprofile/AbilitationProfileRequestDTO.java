@@ -1,11 +1,18 @@
 package it.lorenzolavacchini.dedalo.dto.abilitationprofile;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+
 import java.time.LocalDate;
 
 public class AbilitationProfileRequestDTO {
 
+    @NotBlank(message = "Il numero di licenza è obbligatorio")
     private String licenceNumber;
 
+    @NotNull(message = "La data di scadenza è obbligatoria")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
     private LocalDate licenceExpirationDate;
 
     private boolean twoSeatsAbilitation;
