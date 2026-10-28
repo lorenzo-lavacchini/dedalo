@@ -5,6 +5,7 @@ import it.lorenzolavacchini.dedalo.domain.User;
 import it.lorenzolavacchini.dedalo.dto.user.UserRequestCreateDTO;
 import it.lorenzolavacchini.dedalo.dto.user.UserRequestUpdateDTO;
 import it.lorenzolavacchini.dedalo.dto.user.UserResponseDTO;
+import it.lorenzolavacchini.dedalo.exception.EmailAlreadyUsedException;
 import it.lorenzolavacchini.dedalo.exception.UserAlreadyAdminException;
 import it.lorenzolavacchini.dedalo.exception.UserNotFoundException;
 import it.lorenzolavacchini.dedalo.mapper.UserMapper;
@@ -38,7 +39,7 @@ public class UserService {
 
         //Controlla che non esista già un utente creato con quell'email
         if(userRepository.existsByEmail(userRequestCreateDTO.getEmail())){
-            throw new IllegalArgumentException("Email already used");
+            throw new EmailAlreadyUsedException();
         }
 
         User user = new User(userRequestCreateDTO.getName(), userRequestCreateDTO.getSurname(), userRequestCreateDTO.getTelephone(), userRequestCreateDTO.getEmail(), userRequestCreateDTO.getPassword());
@@ -56,7 +57,7 @@ public class UserService {
 
         //Controlla che non esista già un utente creato con quell'email
         if(userRepository.existsByEmail(email)){
-            throw new IllegalArgumentException("Esiste già un utente registrato con questa email");
+            throw new EmailAlreadyUsedException();
         }
 
         User user = new User(name, surname, telephone, email, password);
@@ -66,9 +67,15 @@ public class UserService {
 
 
     @Transactional
-    public User update(UserRequestUpdateDTO userRequestUpdateDTO){
+    public User update(Long id, UserRequestUpdateDTO userRequestUpdateDTO){
 
-        User user = userMapper.toEntity(userRequestUpdateDTO);
+        User user = userMapper.toEntity(id, userRequestUpdateDTO);
+
+        //Controlla che non esista già un utente creato con quell'email
+        if(userRepository.existsByEmailAndIdNot(user.getEmail(), id)){
+            throw new EmailAlreadyUsedException();
+        }
+
         userRepository.save(user);
         return user;
 
@@ -77,7 +84,7 @@ public class UserService {
     public User getById(Long id){
 
         User user = userRepository.findById(id)
-                .orElseThrow(() -> new UserNotFoundException("User not found"));
+                .orElseThrow(() -> new UserNotFoundException());
 
         return userRepository.getReferenceById(id);
     }
@@ -85,7 +92,7 @@ public class UserService {
     public UserResponseDTO getDTOById(Long id){
 
         User user = userRepository.findById(id)
-                .orElseThrow(() -> new UserNotFoundException("User not found"));
+                .orElseThrow(() -> new UserNotFoundException());
 
         UserResponseDTO userResponseDTO = userMapper.toUserResponseDTO(user);
 
@@ -114,7 +121,7 @@ public class UserService {
     public void delete(Long id){
 
         if(!userRepository.existsById(id)){
-            throw new UserNotFoundException("User not found");
+            throw new UserNotFoundException();
         }
 
         userRepository.deleteById(id);
@@ -125,11 +132,11 @@ public class UserService {
     public void promoteToAdmin(Long id){
 
         if(!userRepository.existsById(id)){
-            throw new UserNotFoundException("User not found");
+            throw new UserNotFoundException();
         }
 
         if(userRepository.existsByIdAndAdminRoleIsNotNull(id)){
-            throw new UserAlreadyAdminException("User is already an admin");
+            throw new UserAlreadyAdminException();
         }
 
         User user = userRepository.getReferenceById(id);

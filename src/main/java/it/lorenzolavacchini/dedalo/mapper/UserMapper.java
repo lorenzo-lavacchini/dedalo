@@ -15,7 +15,6 @@ public class UserMapper {
         }
 
         UserRequestUpdateDTO userRequestUpdateDTO = new UserRequestUpdateDTO();
-        userRequestUpdateDTO.setId(user.getId());
         userRequestUpdateDTO.setName(user.getName());
         userRequestUpdateDTO.setSurname(user.getSurname());
         userRequestUpdateDTO.setTelephone(user.getTelephone());
@@ -62,13 +61,13 @@ public class UserMapper {
         return userResponseDTO;
     }
 
-    public User toEntity(UserRequestUpdateDTO userRequestUpdateDTO){
+    public User toEntity(Long id, UserRequestUpdateDTO userRequestUpdateDTO){
        if(userRequestUpdateDTO == null){
            throw new IllegalArgumentException("Can't map a null object to an entity");
        }
 
        User user = new User();
-       user.setId(userRequestUpdateDTO.getId());
+       user.setId(id);
        user.setName(userRequestUpdateDTO.getName());
        user.setSurname(userRequestUpdateDTO.getSurname());
        user.setTelephone(userRequestUpdateDTO.getTelephone());

@@ -6,9 +6,6 @@ import jakarta.validation.constraints.Size;
 
 public class UserRequestUpdateDTO {
 
-    @NotNull(message = "L'ID è obbligatorio")
-    private Long id;
-
     @NotBlank(message = "Il nome è obbligatorio")
     @Size(max = 50)
     private String name;
@@ -26,22 +23,18 @@ public class UserRequestUpdateDTO {
     private String email;
 
     @NotBlank(message = "La password è obbligatoria")
-    @Size(min = 6, max = 50)
+    @Size(max = 50)
     private String password;
 
     public UserRequestUpdateDTO() {}
 
-    public UserRequestUpdateDTO(Long id, String name, String surname, String telephone, String email, String password) {
-        this.id = id;
+    public UserRequestUpdateDTO(String name, String surname, String telephone, String email, String password) {
         this.name = name;
         this.surname = surname;
         this.telephone = telephone;
         this.email = email;
         this.password = password;
     }
-
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
 
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }

@@ -23,7 +23,7 @@ public class UserRequestCreateDTO {
     private String email;
 
     @NotBlank(message = "La password è obbligatoria")
-    @Size(min = 6, max = 50)
+    @Size(max = 50)
     private String password;
 
     public UserRequestCreateDTO() {}
