@@ -24,9 +24,8 @@ public class PilotService {
 
     public Pilot create(User user, AbilitationProfileRequestDTO abilitationProfileRequestDTO){
 
-
         Pilot pilotRole = new Pilot(user);
-        Logbook logbook = new Logbook();
+        Logbook logbook = new Logbook(pilotRole);
 
         AbilitationProfile abilitationProfile = abilitationProfileMapper.toEntity(abilitationProfileRequestDTO);
         abilitationProfileService.validateAbilitations(abilitationProfile);
