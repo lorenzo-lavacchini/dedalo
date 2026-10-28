@@ -1,6 +1,7 @@
 package it.lorenzolavacchini.dedalo.mapper;
 
 import it.lorenzolavacchini.dedalo.domain.User;
+import it.lorenzolavacchini.dedalo.dto.user.UserRequestCreateDTO;
 import it.lorenzolavacchini.dedalo.dto.user.UserRequestUpdateDTO;
 import it.lorenzolavacchini.dedalo.dto.user.UserResponseDTO;
 import org.springframework.stereotype.Component;
@@ -75,6 +76,21 @@ public class UserMapper {
        user.setPassword(userRequestUpdateDTO.getPassword());
 
        return user;
+    }
+
+    public User toEntity(UserRequestCreateDTO userRequestCreateDTO){
+        if(userRequestCreateDTO == null){
+            throw new IllegalArgumentException("Can't map a null object to an entity");
+        }
+
+        User user = new User();
+        user.setName(userRequestCreateDTO.getName());
+        user.setSurname(userRequestCreateDTO.getSurname());
+        user.setTelephone(userRequestCreateDTO.getTelephone());
+        user.setEmail(userRequestCreateDTO.getEmail());
+        user.setPassword(userRequestCreateDTO.getPassword());
+
+        return user;
     }
 
 }

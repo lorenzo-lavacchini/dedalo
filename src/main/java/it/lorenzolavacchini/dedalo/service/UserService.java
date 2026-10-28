@@ -42,7 +42,7 @@ public class UserService {
             throw new EmailAlreadyUsedException();
         }
 
-        User user = new User(userRequestCreateDTO.getName(), userRequestCreateDTO.getSurname(), userRequestCreateDTO.getTelephone(), userRequestCreateDTO.getEmail(), userRequestCreateDTO.getPassword());
+        User user = userMapper.toEntity(userRequestCreateDTO);
         userRepository.save(user);
         return user;
     }
