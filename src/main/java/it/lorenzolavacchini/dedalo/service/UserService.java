@@ -1,13 +1,14 @@
 package it.lorenzolavacchini.dedalo.service;
 
 import it.lorenzolavacchini.dedalo.domain.Admin;
+import it.lorenzolavacchini.dedalo.domain.Pilot;
+import it.lorenzolavacchini.dedalo.domain.StaffMember;
 import it.lorenzolavacchini.dedalo.domain.User;
 import it.lorenzolavacchini.dedalo.dto.user.UserRequestCreateDTO;
+import it.lorenzolavacchini.dedalo.dto.abilitationprofile.AbilitationProfileRequestDTO;
 import it.lorenzolavacchini.dedalo.dto.user.UserRequestUpdateDTO;
 import it.lorenzolavacchini.dedalo.dto.user.UserResponseDTO;
-import it.lorenzolavacchini.dedalo.exception.EmailAlreadyUsedException;
-import it.lorenzolavacchini.dedalo.exception.UserAlreadyAdminException;
-import it.lorenzolavacchini.dedalo.exception.UserNotFoundException;
+import it.lorenzolavacchini.dedalo.exception.*;
 import it.lorenzolavacchini.dedalo.mapper.UserMapper;
 import it.lorenzolavacchini.dedalo.repository.AdminRepository;
 import it.lorenzolavacchini.dedalo.repository.UserRepository;
@@ -24,18 +25,21 @@ public class UserService {
     private final AdminRepository adminRepository;
     private final PilotService pilotService;
     private final AdminService adminService;
+    private final StaffMemberService staffMemberService;
     private final UserMapper userMapper;
 
-    public UserService(UserRepository userRepository, AdminRepository adminRepository, PilotService pilotService, AdminService adminService, UserMapper userMapper){
+    public UserService(UserRepository userRepository, AdminRepository adminRepository, PilotService pilotService, AdminService adminService,
+                       StaffMemberService staffMemberService,  UserMapper userMapper){
         this.userRepository = userRepository;
         this.adminRepository = adminRepository;
         this.pilotService = pilotService;
         this.adminService = adminService;
+        this.staffMemberService = staffMemberService;
         this.userMapper = userMapper;
     }
 
     @Transactional
-    public User createUser(UserRequestCreateDTO userRequestCreateDTO){
+    public User create(UserRequestCreateDTO userRequestCreateDTO){
 
         //Controlla che non esista già un utente creato con quell'email
         if(userRepository.existsByEmail(userRequestCreateDTO.getEmail())){
@@ -49,7 +53,7 @@ public class UserService {
 
 
     @Transactional
-    public User createUser(String name, String surname, String telephone, String email, String password){
+    public User create(String name, String surname, String telephone, String email, String password){
 
         if(name.isBlank() || surname.isBlank() || telephone.isBlank() || email.isBlank() || password.isBlank()){
             throw new IllegalArgumentException("Mancano dati obbiligatori");
@@ -142,6 +146,36 @@ public class UserService {
         User user = userRepository.getReferenceById(id);
         Admin admin = adminService.createAdmin(user);
         user.setAdminRole(admin);
+        userRepository.save(user);
+    }
+
+    @Transactional
+    public void assignStaffRole(Long id){
+
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException());
+
+        if(user.getStaffMemberRole() != null){
+            throw new UserAlreadyStaffException();
+        }
+
+        StaffMember staffMemberRole = staffMemberService.create(user);
+        user.setStaffMemberRole(staffMemberRole);
+        userRepository.save(user);
+    }
+
+    @Transactional
+    public void promoteToPilot(Long id, AbilitationProfileRequestDTO abilitationProfileRequestDTO){
+
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new UserAlreadyPilotException());
+
+        if(user.getPilotRole() != null){
+            throw new UserAlreadyPilotException();
+        }
+
+        Pilot pilotRole = pilotService.create(user, abilitationProfileRequestDTO);
+        user.setPilotRole(pilotRole);
         userRepository.save(user);
     }
 }

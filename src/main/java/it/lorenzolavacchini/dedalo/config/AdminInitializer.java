@@ -1,6 +1,5 @@
 package it.lorenzolavacchini.dedalo.config;
 
-import it.lorenzolavacchini.dedalo.domain.Admin;
 import it.lorenzolavacchini.dedalo.domain.User;
 import it.lorenzolavacchini.dedalo.repository.UserRepository;
 import it.lorenzolavacchini.dedalo.service.UserService;
@@ -27,15 +26,15 @@ public class AdminInitializer implements CommandLineRunner {
         if(!userRepository.existsByAdminRoleIsNotNull()){
 
             User user;
-            user = userService.createUser("admin", "- ", "-", "airfieldadmin@gmail.com","password");
+            user = userService.create("admin", "- ", "-", "airfieldadmin@gmail.com","password");
             userService.promoteToAdmin(user.getId());
             userRepository.save(user);
 
             //Aggiungo due user per provare i metodi del controller
             User user1;
             User user2;
-            user1 = userService.createUser("user 1", "- ", "-", "user1@gmail.com","password");
-            user2 = userService.createUser("user 2", "- ", "-", "user2@gmail.com","password");
+            user1 = userService.create("user 1", "- ", "-", "user1@gmail.com","password");
+            user2 = userService.create("user 2", "- ", "-", "user2@gmail.com","password");
             userRepository.save(user1);
             userRepository.save(user2);
 

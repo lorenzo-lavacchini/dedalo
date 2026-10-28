@@ -31,6 +31,10 @@ public class Pilot {
 
     }
 
+    public Pilot(User user){
+        this.user = user;
+    }
+
     public Long getId() {
         return id;
     }

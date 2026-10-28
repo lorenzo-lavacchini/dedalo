@@ -29,7 +29,7 @@ public class UserServiceTest {
         String email = "mario.rossi@email.com";
         when(userRepository.existsByEmail(email)).thenReturn(false);
 
-        User savedUser = userService.createUser("Mario", "Rossi", "333123456", email, "password123");
+        User savedUser = userService.create("Mario", "Rossi", "333123456", email, "password123");
 
         assertNotNull(savedUser);
         assertEquals("Mario", savedUser.getName());

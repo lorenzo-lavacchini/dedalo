@@ -1,6 +1,7 @@
 package it.lorenzolavacchini.dedalo.controller;
 import it.lorenzolavacchini.dedalo.domain.User;
 import it.lorenzolavacchini.dedalo.dto.user.UserRequestCreateDTO;
+import it.lorenzolavacchini.dedalo.dto.abilitationprofile.AbilitationProfileRequestDTO;
 import it.lorenzolavacchini.dedalo.dto.user.UserRequestUpdateDTO;
 import it.lorenzolavacchini.dedalo.dto.user.UserResponseDTO;
 import it.lorenzolavacchini.dedalo.mapper.UserMapper;
@@ -40,7 +41,7 @@ public class UserController{
 
     @PostMapping("/create")
     public ResponseEntity<UserResponseDTO> create(@Valid @RequestBody UserRequestCreateDTO userRequestCreateDTO){
-        User user = userService.createUser(userRequestCreateDTO);
+        User user = userService.create(userRequestCreateDTO);
         UserResponseDTO userResponseDTO = userMapper.toUserResponseDTO(user);
         return ResponseEntity.ok(userResponseDTO);
     }
@@ -52,10 +53,20 @@ public class UserController{
         return ResponseEntity.ok(userResponseDTO);
     }
 
+    @PatchMapping("/staff-role/{id}")
+    public ResponseEntity<UserResponseDTO> assignStaffRole(@PathVariable Long id){
+        userService.assignStaffRole(id);
+        User user = userService.getById(id);
+        UserResponseDTO userResponseDTO = userMapper.toUserResponseDTO(user);
+        return ResponseEntity.ok(userResponseDTO);
+    }
 
-
-
-
-
+    @PatchMapping("/pilot/{id}")
+    public ResponseEntity<UserResponseDTO> promoteToPilot(@PathVariable Long id, @Valid @RequestBody AbilitationProfileRequestDTO abilitationProfileRequestDTO){
+        userService.promoteToPilot(id, abilitationProfileRequestDTO);
+        User user = userService.getById(id);
+        UserResponseDTO userResponseDTO = userMapper.toUserResponseDTO(user);
+        return ResponseEntity.ok(userResponseDTO);
+    }
 
 }

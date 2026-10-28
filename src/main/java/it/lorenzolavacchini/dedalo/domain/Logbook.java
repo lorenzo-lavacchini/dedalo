@@ -1,8 +1,10 @@
 package it.lorenzolavacchini.dedalo.domain;
 
 import jakarta.persistence.*;
+import org.springframework.cglib.core.Local;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -20,10 +22,15 @@ public class Logbook {
     private Pilot owner;
 
     @OneToMany(mappedBy = "logbook", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    private List<Flight> flights;
+    private List<Flight> flights = new ArrayList<>();
 
     public Logbook(){
 
+    }
+
+    public Logbook(Pilot owner){
+        this.creationDate = LocalDate.now();
+        this.owner = owner;
     }
 
     public Long getId() {

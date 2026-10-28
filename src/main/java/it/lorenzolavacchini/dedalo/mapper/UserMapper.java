@@ -39,17 +39,17 @@ public class UserMapper {
         userResponseDTO.setEmail(user.getEmail());
 
         if (user.getAdminRole() == null){
+            userResponseDTO.setAdmin(false);
+        }
+        else{
+            userResponseDTO.setAdmin(true);
+        }
+
+        if(user.getStaffMemberRole() == null){
             userResponseDTO.setStaffMember(false);
         }
         else{
             userResponseDTO.setStaffMember(true);
-        }
-
-        if(user.getStaffMemberRole() == null){
-            userResponseDTO.setPilot(false);
-        }
-        else{
-            userResponseDTO.setPilot(true);
         }
 
         if (user.getPilotRole() == null){

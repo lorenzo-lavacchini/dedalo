@@ -32,7 +32,7 @@ public class Flight {
     @Column(nullable = false, length = 50)
     private String notes;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "logbook_id", nullable = false)
     private Logbook logbook;
 

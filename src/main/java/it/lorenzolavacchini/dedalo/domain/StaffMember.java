@@ -9,9 +9,6 @@ public class StaffMember {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, length = 3)
-    private String staffMemberID;
-
     @OneToOne
     @JoinColumn(name = "user_id")
     private User user;
@@ -20,20 +17,16 @@ public class StaffMember {
 
     }
 
+    public StaffMember(User user){
+        this.user = user;
+    }
+
     public Long getId() {
         return id;
     }
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getStaffMemberID() {
-        return staffMemberID;
-    }
-
-    public void setStaffMemberID(String staffMemberID) {
-        this.staffMemberID = staffMemberID;
     }
 
     public User getUser() {
