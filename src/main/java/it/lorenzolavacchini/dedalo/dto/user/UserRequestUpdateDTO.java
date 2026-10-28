@@ -4,7 +4,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
-public class UserRequestDTO {
+public class UserRequestUpdateDTO {
 
     @NotNull(message = "L'ID è obbligatorio")
     private Long id;
@@ -29,9 +29,9 @@ public class UserRequestDTO {
     @Size(min = 6, max = 50)
     private String password;
 
-    public UserRequestDTO() {}
+    public UserRequestUpdateDTO() {}
 
-    public UserRequestDTO(Long id, String name, String surname, String telephone, String email, String password) {
+    public UserRequestUpdateDTO(Long id, String name, String surname, String telephone, String email, String password) {
         this.id = id;
         this.name = name;
         this.surname = surname;

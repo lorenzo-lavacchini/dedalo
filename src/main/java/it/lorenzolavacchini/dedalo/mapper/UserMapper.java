@@ -1,28 +1,28 @@
 package it.lorenzolavacchini.dedalo.mapper;
 
 import it.lorenzolavacchini.dedalo.domain.User;
-import it.lorenzolavacchini.dedalo.dto.user.UserRequestDTO;
+import it.lorenzolavacchini.dedalo.dto.user.UserRequestUpdateDTO;
 import it.lorenzolavacchini.dedalo.dto.user.UserResponseDTO;
 import org.springframework.stereotype.Component;
 
 @Component
 public class UserMapper {
 
-    public UserRequestDTO toUserRequestDTO(User user){
+    public UserRequestUpdateDTO toUserRequestDTO(User user){
 
         if(user == null){
             throw new IllegalArgumentException("Can't map a null object to DTO");
         }
 
-        UserRequestDTO userRequestDTO = new UserRequestDTO();
-        userRequestDTO.setId(user.getId());
-        userRequestDTO.setName(user.getName());
-        userRequestDTO.setSurname(user.getSurname());
-        userRequestDTO.setTelephone(user.getTelephone());
-        userRequestDTO.setEmail(user.getEmail());
-        userRequestDTO.setPassword(user.getPassword());
+        UserRequestUpdateDTO userRequestUpdateDTO = new UserRequestUpdateDTO();
+        userRequestUpdateDTO.setId(user.getId());
+        userRequestUpdateDTO.setName(user.getName());
+        userRequestUpdateDTO.setSurname(user.getSurname());
+        userRequestUpdateDTO.setTelephone(user.getTelephone());
+        userRequestUpdateDTO.setEmail(user.getEmail());
+        userRequestUpdateDTO.setPassword(user.getPassword());
 
-        return userRequestDTO;
+        return userRequestUpdateDTO;
     }
 
     public UserResponseDTO toUserResponseDTO(User user){
@@ -62,18 +62,18 @@ public class UserMapper {
         return userResponseDTO;
     }
 
-    public User toEntity(UserRequestDTO userRequestDTO){
-       if(userRequestDTO == null){
+    public User toEntity(UserRequestUpdateDTO userRequestUpdateDTO){
+       if(userRequestUpdateDTO == null){
            throw new IllegalArgumentException("Can't map a null object to an entity");
        }
 
        User user = new User();
-       user.setId(userRequestDTO.getId());
-       user.setName(userRequestDTO.getName());
-       user.setSurname(userRequestDTO.getSurname());
-       user.setTelephone(userRequestDTO.getTelephone());
-       user.setEmail(userRequestDTO.getEmail());
-       user.setPassword(userRequestDTO.getPassword());
+       user.setId(userRequestUpdateDTO.getId());
+       user.setName(userRequestUpdateDTO.getName());
+       user.setSurname(userRequestUpdateDTO.getSurname());
+       user.setTelephone(userRequestUpdateDTO.getTelephone());
+       user.setEmail(userRequestUpdateDTO.getEmail());
+       user.setPassword(userRequestUpdateDTO.getPassword());
 
        return user;
     }

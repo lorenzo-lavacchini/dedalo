@@ -2,7 +2,8 @@ package it.lorenzolavacchini.dedalo.service;
 
 import it.lorenzolavacchini.dedalo.domain.Admin;
 import it.lorenzolavacchini.dedalo.domain.User;
-import it.lorenzolavacchini.dedalo.dto.user.UserRequestDTO;
+import it.lorenzolavacchini.dedalo.dto.user.UserRequestCreateDTO;
+import it.lorenzolavacchini.dedalo.dto.user.UserRequestUpdateDTO;
 import it.lorenzolavacchini.dedalo.dto.user.UserResponseDTO;
 import it.lorenzolavacchini.dedalo.exception.UserAlreadyAdminException;
 import it.lorenzolavacchini.dedalo.exception.UserNotFoundException;
@@ -33,19 +34,14 @@ public class UserService {
     }
 
     @Transactional
-    public User createUser(UserRequestDTO userRequestDTO){
-
-        if(userRequestDTO.getName().isBlank() || userRequestDTO.getSurname().isBlank() || userRequestDTO.getTelephone().isBlank()
-                || userRequestDTO.getEmail().isBlank() || userRequestDTO.getPassword().isBlank()){
-            throw new IllegalArgumentException("Lack of necessary data");
-        }
+    public User createUser(UserRequestCreateDTO userRequestCreateDTO){
 
         //Controlla che non esista già un utente creato con quell'email
-        if(userRepository.existsByEmail(userRequestDTO.getEmail())){
+        if(userRepository.existsByEmail(userRequestCreateDTO.getEmail())){
             throw new IllegalArgumentException("Email already used");
         }
 
-        User user = new User(userRequestDTO.getName(), userRequestDTO.getSurname(), userRequestDTO.getTelephone(), userRequestDTO.getEmail(), userRequestDTO.getPassword());
+        User user = new User(userRequestCreateDTO.getName(), userRequestCreateDTO.getSurname(), userRequestCreateDTO.getTelephone(), userRequestCreateDTO.getEmail(), userRequestCreateDTO.getPassword());
         userRepository.save(user);
         return user;
     }
@@ -66,6 +62,16 @@ public class UserService {
         User user = new User(name, surname, telephone, email, password);
         userRepository.save(user);
         return user;
+    }
+
+
+    @Transactional
+    public User update(UserRequestUpdateDTO userRequestUpdateDTO){
+
+        User user = userMapper.toEntity(userRequestUpdateDTO);
+        userRepository.save(user);
+        return user;
+
     }
 
     public User getById(Long id){
