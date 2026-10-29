@@ -34,6 +34,9 @@ public class User {
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private Admin adminRole;
 
+    @Column(nullable = false)
+    private boolean deleted;
+
     public User(){
 
     }
@@ -47,6 +50,7 @@ public class User {
         this.setStaffMemberRole(null);
         this.setPilotRole(null);
         this.setPilotRole(null);
+        this.setDeleted(false);
     }
 
     public Long getId() {
@@ -119,5 +123,13 @@ public class User {
 
     public void setAdminRole(Admin adminRole){
         this.adminRole = adminRole;
+    }
+
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
     }
 }

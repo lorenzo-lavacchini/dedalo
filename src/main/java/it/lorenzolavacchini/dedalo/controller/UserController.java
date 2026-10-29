@@ -69,6 +69,10 @@ public class UserController{
         return ResponseEntity.ok(userResponseDTO);
     }
 
-
-
+    //Poi aggiornare anche i metodi qui sopra che fanno la get per far recuperare solo gli user attivi!
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<String> delete(@PathVariable Long id){
+        userService.deleteLogic(id);
+        return ResponseEntity.ok("Resource correctly deleted");
+    }
 }

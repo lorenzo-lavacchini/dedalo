@@ -73,6 +73,10 @@ public class UserService {
     @Transactional
     public User update(Long id, UserRequestUpdateDTO userRequestUpdateDTO){
 
+        if(!userRepository.existsById(id)){
+            throw new UserNotFoundException();
+        }
+
         User user = userMapper.toEntity(id, userRequestUpdateDTO);
 
         //Controlla che non esista già un utente creato con quell'email
@@ -95,7 +99,7 @@ public class UserService {
 
     public UserResponseDTO getDTOById(Long id){
 
-        User user = userRepository.findById(id)
+        User user = userRepository.findByIdAndDeletedFalse(id)
                 .orElseThrow(() -> new UserNotFoundException());
 
         UserResponseDTO userResponseDTO = userMapper.toUserResponseDTO(user);
@@ -105,12 +109,12 @@ public class UserService {
 
     public List<UserResponseDTO> getAll(){
 
-        List<User> users = userRepository.findAll();
+        List<User> users = userRepository.findByDeletedFalse();
 
         List<UserResponseDTO> usersDTO = new ArrayList<>();
 
         if(users.isEmpty()){
-            return usersDTO ;
+            return usersDTO;
         }
 
         for (User user : users){
@@ -122,13 +126,13 @@ public class UserService {
     }
 
     @Transactional
-    public void delete(Long id){
+    public void deleteLogic(Long id){
 
-        if(!userRepository.existsById(id)){
-            throw new UserNotFoundException();
-        }
+        User user = userRepository.findByIdAndDeletedFalse(id)
+                .orElseThrow(() -> new UserNotFoundException());
 
-        userRepository.deleteById(id);
+        user.setDeleted(true);
+        userRepository.save(user);
     }
 
 
@@ -152,7 +156,7 @@ public class UserService {
     @Transactional
     public void assignStaffRole(Long id){
 
-        User user = userRepository.findById(id)
+        User user = userRepository.findByIdAndDeletedFalse(id)
                 .orElseThrow(() -> new UserNotFoundException());
 
         if(user.getStaffMemberRole() != null){
@@ -167,7 +171,7 @@ public class UserService {
     @Transactional
     public void promoteToPilot(Long id, AbilitationProfileRequestDTO abilitationProfileRequestDTO){
 
-        User user = userRepository.findById(id)
+        User user = userRepository.findByIdAndDeletedFalse(id)
                 .orElseThrow(() -> new UserAlreadyPilotException());
 
         if(user.getPilotRole() != null){
