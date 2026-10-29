@@ -46,31 +46,25 @@ public class UserController{
 
     @PostMapping("/create")
     public ResponseEntity<UserResponseDTO> create(@Valid @RequestBody UserRequestCreateDTO userRequestCreateDTO){
-        User user = userService.create(userRequestCreateDTO);
-        UserResponseDTO userResponseDTO = userMapper.toUserResponseDTO(user);
+        UserResponseDTO userResponseDTO = userService.create(userRequestCreateDTO);
         return ResponseEntity.ok(userResponseDTO);
     }
 
     @PutMapping("/update/{id}")
     public ResponseEntity<UserResponseDTO> update(@PathVariable Long id, @Valid @RequestBody UserRequestUpdateDTO userRequestUpdateDTO){
-        User user = userService.update(id, userRequestUpdateDTO);
-        UserResponseDTO userResponseDTO = userMapper.toUserResponseDTO(user);
+        UserResponseDTO userResponseDTO = userService.update(id, userRequestUpdateDTO);
         return ResponseEntity.ok(userResponseDTO);
     }
 
     @PatchMapping("/staff-role/{id}")
     public ResponseEntity<UserResponseDTO> assignStaffRole(@PathVariable Long id){
-        userService.assignStaffRole(id);
-        User user = userService.getById(id);
-        UserResponseDTO userResponseDTO = userMapper.toUserResponseDTO(user);
+        UserResponseDTO userResponseDTO = userService.assignStaffRole(id);
         return ResponseEntity.ok(userResponseDTO);
     }
 
     @PatchMapping("/pilot/{id}")
     public ResponseEntity<UserResponseDTO> promoteToPilot(@PathVariable Long id, @Valid @RequestBody AbilitationProfileRequestDTO abilitationProfileRequestDTO){
-        userService.promoteToPilot(id, abilitationProfileRequestDTO);
-        User user = userService.getById(id);
-        UserResponseDTO userResponseDTO = userMapper.toUserResponseDTO(user);
+        UserResponseDTO userResponseDTO = userService.promoteToPilot(id, abilitationProfileRequestDTO);
         return ResponseEntity.ok(userResponseDTO);
     }
 

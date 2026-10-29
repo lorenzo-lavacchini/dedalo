@@ -14,6 +14,7 @@ import it.lorenzolavacchini.dedalo.repository.AdminRepository;
 import it.lorenzolavacchini.dedalo.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
+import tools.jackson.databind.cfg.MapperBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,19 +28,21 @@ public class UserService {
     private final AdminService adminService;
     private final StaffMemberService staffMemberService;
     private final UserMapper userMapper;
+    private final MapperBuilder mapperBuilder;
 
     public UserService(UserRepository userRepository, AdminRepository adminRepository, PilotService pilotService, AdminService adminService,
-                       StaffMemberService staffMemberService,  UserMapper userMapper){
+                       StaffMemberService staffMemberService, UserMapper userMapper, MapperBuilder mapperBuilder){
         this.userRepository = userRepository;
         this.adminRepository = adminRepository;
         this.pilotService = pilotService;
         this.adminService = adminService;
         this.staffMemberService = staffMemberService;
         this.userMapper = userMapper;
+        this.mapperBuilder = mapperBuilder;
     }
 
     @Transactional
-    public User create(UserRequestCreateDTO userRequestCreateDTO){
+    public UserResponseDTO create(UserRequestCreateDTO userRequestCreateDTO){
 
         //Controlla che non esista già un utente creato con quell'email
         if(userRepository.existsByEmail(userRequestCreateDTO.getEmail())){
@@ -48,7 +51,8 @@ public class UserService {
 
         User user = userMapper.toEntity(userRequestCreateDTO);
         userRepository.save(user);
-        return user;
+        UserResponseDTO userResponseDTO = userMapper.toUserResponseDTO(user);
+        return userResponseDTO;
     }
 
 
@@ -71,7 +75,7 @@ public class UserService {
 
 
     @Transactional
-    public User update(Long id, UserRequestUpdateDTO userRequestUpdateDTO){
+    public UserResponseDTO update(Long id, UserRequestUpdateDTO userRequestUpdateDTO){
 
         if(!userRepository.existsById(id)){
             throw new UserNotFoundException();
@@ -85,8 +89,8 @@ public class UserService {
         }
 
         userRepository.save(user);
-        return user;
-
+        UserResponseDTO userResponseDTO = userMapper.toUserResponseDTO(user);
+        return userResponseDTO;
     }
 
     public User getById(Long id){
@@ -154,7 +158,7 @@ public class UserService {
     }
 
     @Transactional
-    public void assignStaffRole(Long id){
+    public UserResponseDTO assignStaffRole(Long id){
 
         User user = userRepository.findByIdAndDeletedFalse(id)
                 .orElseThrow(() -> new UserNotFoundException());
@@ -166,10 +170,12 @@ public class UserService {
         StaffMember staffMemberRole = staffMemberService.create(user);
         user.setStaffMemberRole(staffMemberRole);
         userRepository.save(user);
+        UserResponseDTO userResponseDTO = userMapper.toUserResponseDTO(user);
+        return userResponseDTO;
     }
 
     @Transactional
-    public void promoteToPilot(Long id, AbilitationProfileRequestDTO abilitationProfileRequestDTO){
+    public UserResponseDTO promoteToPilot(Long id, AbilitationProfileRequestDTO abilitationProfileRequestDTO){
 
         User user = userRepository.findByIdAndDeletedFalse(id)
                 .orElseThrow(() -> new UserAlreadyPilotException());
@@ -181,5 +187,7 @@ public class UserService {
         Pilot pilotRole = pilotService.create(user, abilitationProfileRequestDTO);
         user.setPilotRole(pilotRole);
         userRepository.save(user);
+        UserResponseDTO userResponseDTO = userMapper.toUserResponseDTO(user);
+        return userResponseDTO;
     }
 }
