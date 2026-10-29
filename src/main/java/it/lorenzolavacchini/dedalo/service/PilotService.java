@@ -12,6 +12,7 @@ import it.lorenzolavacchini.dedalo.exception.UserNotFoundException;
 import it.lorenzolavacchini.dedalo.mapper.AbilitationProfileMapper;
 import it.lorenzolavacchini.dedalo.mapper.PilotMapper;
 import it.lorenzolavacchini.dedalo.repository.PilotRepository;
+import it.lorenzolavacchini.dedalo.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
@@ -22,12 +23,14 @@ public class PilotService {
     private final AbilitationProfileService abilitationProfileService;
     private final AbilitationProfileMapper abilitationProfileMapper;
     private final PilotMapper pilotMapper;
+    private final UserRepository userRepository;
 
-    public PilotService(PilotRepository pilotRepository, AbilitationProfileService abilitationProfileService, AbilitationProfileMapper abilitationProfileMapper, PilotMapper pilotMapper){
+    public PilotService(PilotRepository pilotRepository, AbilitationProfileService abilitationProfileService, AbilitationProfileMapper abilitationProfileMapper, PilotMapper pilotMapper, UserRepository userRepository){
         this.pilotRepository = pilotRepository;
         this.abilitationProfileService = abilitationProfileService;
         this.abilitationProfileMapper = abilitationProfileMapper;
         this.pilotMapper = pilotMapper;
+        this.userRepository = userRepository;
     }
 
     @Transactional
@@ -50,17 +53,20 @@ public class PilotService {
     }
 
     @Transactional
-    public void makeAssociated(Long id){
+    public PilotResponseDTO makeAssociated(Long id){
 
-        Pilot pilot = pilotRepository.findById(id)
-                .orElseThrow(() -> new PilotNotFoundException());
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException());
 
+        Pilot pilot = user.getPilotRole();
         if(pilot.isAssociated()){
             throw new PilotAlreadyAssociatedException();
         }
 
         pilot.setAssociated(true);
+        PilotResponseDTO pilotResponseDTO = pilotMapper.toPilotResponseDTO(pilot);
         pilotRepository.save(pilot);
+        return pilotResponseDTO;
     }
 
     public PilotResponseDTO getPilotResponseDTOById(Long id){

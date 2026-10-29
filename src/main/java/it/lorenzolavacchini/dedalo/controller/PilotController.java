@@ -22,11 +22,13 @@ public class PilotController {
         this.pilotService = pilotService;
     }
 
-    @PatchMapping("/association/{id}")
-    public ResponseEntity<PilotResponseDTO> makeAssociated(@PathVariable Long id){
-        pilotService.makeAssociated(id);
-        PilotResponseDTO pilotResponseDTO = pilotService.getPilotResponseDTOById(id);
+    //DA SPOSTARE IN USER CONTROLLER!!
+    @PatchMapping("/users/{userId}/pilot/association")
+    public ResponseEntity<PilotResponseDTO> makeAssociated(@PathVariable Long userId){
+        pilotService.makeAssociated(userId);
+        PilotResponseDTO pilotResponseDTO = pilotService.getPilotResponseDTOById(userId);
         return ResponseEntity.ok(pilotResponseDTO);
     }
+
 
 }
