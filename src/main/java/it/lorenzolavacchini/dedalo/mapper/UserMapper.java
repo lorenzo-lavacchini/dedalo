@@ -54,9 +54,11 @@ public class UserMapper {
 
         if (user.getPilotRole() == null){
             userResponseDTO.setPilot(false);
+            userResponseDTO.setPilotId(null);
         }
         else{
             userResponseDTO.setPilot(true);
+            userResponseDTO.setPilotId(user.getPilotRole().getId());
         }
 
         return userResponseDTO;

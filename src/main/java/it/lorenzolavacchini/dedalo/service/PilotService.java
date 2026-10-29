@@ -5,8 +5,14 @@ import it.lorenzolavacchini.dedalo.domain.Logbook;
 import it.lorenzolavacchini.dedalo.domain.Pilot;
 import it.lorenzolavacchini.dedalo.domain.User;
 import it.lorenzolavacchini.dedalo.dto.abilitationprofile.AbilitationProfileRequestDTO;
+import it.lorenzolavacchini.dedalo.dto.pilot.PilotResponseDTO;
+import it.lorenzolavacchini.dedalo.exception.PilotAlreadyAssociatedException;
+import it.lorenzolavacchini.dedalo.exception.PilotNotFoundException;
+import it.lorenzolavacchini.dedalo.exception.UserNotFoundException;
 import it.lorenzolavacchini.dedalo.mapper.AbilitationProfileMapper;
+import it.lorenzolavacchini.dedalo.mapper.PilotMapper;
 import it.lorenzolavacchini.dedalo.repository.PilotRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -15,13 +21,16 @@ public class PilotService {
     private final PilotRepository pilotRepository;
     private final AbilitationProfileService abilitationProfileService;
     private final AbilitationProfileMapper abilitationProfileMapper;
+    private final PilotMapper pilotMapper;
 
-    public PilotService(PilotRepository pilotRepository, AbilitationProfileService abilitationProfileService, AbilitationProfileMapper abilitationProfileMapper){
+    public PilotService(PilotRepository pilotRepository, AbilitationProfileService abilitationProfileService, AbilitationProfileMapper abilitationProfileMapper, PilotMapper pilotMapper){
         this.pilotRepository = pilotRepository;
         this.abilitationProfileService = abilitationProfileService;
         this.abilitationProfileMapper = abilitationProfileMapper;
+        this.pilotMapper = pilotMapper;
     }
 
+    @Transactional
     public Pilot create(User user, AbilitationProfileRequestDTO abilitationProfileRequestDTO){
 
         Pilot pilotRole = new Pilot(user);
@@ -38,7 +47,30 @@ public class PilotService {
 
         user.setPilotRole(pilotRole);
         return pilotRole;
+    }
 
+    @Transactional
+    public void makeAssociated(Long id){
+
+        Pilot pilot = pilotRepository.findById(id)
+                .orElseThrow(() -> new PilotNotFoundException());
+
+        if(pilot.isAssociated()){
+            throw new PilotAlreadyAssociatedException();
+        }
+
+        pilot.setAssociated(true);
+        pilotRepository.save(pilot);
+    }
+
+    public PilotResponseDTO getPilotResponseDTOById(Long id){
+
+        Pilot pilot = pilotRepository.findById(id)
+                .orElseThrow(() -> new PilotNotFoundException());
+
+        PilotResponseDTO pilotResponseDTO = pilotMapper.toPilotResponseDTO(pilot);
+
+        return pilotResponseDTO;
     }
 
 }

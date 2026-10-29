@@ -94,7 +94,7 @@ public class UserService {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException());
 
-        return userRepository.getReferenceById(id);
+        return user;
     }
 
     public UserResponseDTO getDTOById(Long id){

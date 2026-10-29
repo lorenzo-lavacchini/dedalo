@@ -2,6 +2,7 @@ package it.lorenzolavacchini.dedalo.domain;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -33,6 +34,8 @@ public class Pilot {
 
     public Pilot(User user){
         this.user = user;
+        this.associated = false;
+        this.ownedAirplanes = new ArrayList<>();
     }
 
     public Long getId() {

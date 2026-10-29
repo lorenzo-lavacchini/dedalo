@@ -5,7 +5,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
-@JsonPropertyOrder({"id","name","surname","telephone","email","staffMember","pilot","admin"})
+@JsonPropertyOrder({"id","name","surname","telephone","email","staffMember","pilot","admin", "pilotId"})
 public class UserResponseDTO {
 
     private Long id;
@@ -23,6 +23,8 @@ public class UserResponseDTO {
     private boolean pilot;
 
     private boolean admin;
+
+    private Long pilotId;
 
     public UserResponseDTO() {}
 
@@ -88,5 +90,13 @@ public class UserResponseDTO {
 
     public void setAdmin(boolean admin) {
         this.admin = admin;
+    }
+
+    public Long getPilotId() {
+        return pilotId;
+    }
+
+    public void setPilotId(Long pilotId) {
+        this.pilotId = pilotId;
     }
 }

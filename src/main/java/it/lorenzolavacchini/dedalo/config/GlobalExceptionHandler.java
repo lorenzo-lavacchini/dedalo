@@ -17,11 +17,15 @@ public class GlobalExceptionHandler {
         return buildResponse(HttpStatus.NOT_FOUND, "Not Found", ex.getMessage());
     }
 
+    @ExceptionHandler(PilotNotFoundException.class)
+    public ResponseEntity<Object> handlePilotNotFound(PilotNotFoundException ex) {
+        return buildResponse(HttpStatus.NOT_FOUND, "Not Found", ex.getMessage());
+    }
+
     @ExceptionHandler(UserAlreadyAdminException.class)
     public ResponseEntity<Object> handleUserAlreadyAdmin(UserAlreadyAdminException ex) {
         return buildResponse(HttpStatus.CONFLICT, "Conflict", ex.getMessage());
     }
-
 
     @ExceptionHandler(EmailAlreadyUsedException.class)
     public ResponseEntity<Object> handleEmailConflict(EmailAlreadyUsedException ex) {
@@ -35,6 +39,11 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(NotAllowedRadioAbilitationException.class)
     public ResponseEntity<Object> handleInvalidOperation(NotAllowedRadioAbilitationException ex) {
+        return buildResponse(HttpStatus.BAD_REQUEST, "Bad Request", ex.getMessage());
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<Object> IllegalArgumentException(IllegalArgumentException ex) {
         return buildResponse(HttpStatus.BAD_REQUEST, "Bad Request", ex.getMessage());
     }
 
