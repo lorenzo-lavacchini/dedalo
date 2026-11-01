@@ -13,6 +13,9 @@ import it.lorenzolavacchini.dedalo.repository.PilotRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class AirplaneService {
 
@@ -55,6 +58,23 @@ public class AirplaneService {
 
         AirplaneResponseDTO airplaneResponseDTO = airplaneMapper.toResponseDTO(airplane);
         return airplaneResponseDTO;
+    }
+
+    public List<AirplaneResponseDTO> getAll(){
+
+        List<Airplane> airplanes = airplaneRepository.findByDeletedFalse();
+
+        List<AirplaneResponseDTO> airplanesDTO = new ArrayList<>();
+
+        if (airplanes.isEmpty()){
+            return airplanesDTO;
+        }
+
+        for (Airplane airplane : airplanes){
+            airplanesDTO.add(airplaneMapper.toResponseDTO(airplane));
+        }
+
+        return airplanesDTO;
     }
 }
 

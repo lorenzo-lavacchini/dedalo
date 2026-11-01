@@ -8,6 +8,8 @@ import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/")
 public class AirplaneController {
@@ -25,7 +27,10 @@ public class AirplaneController {
     }
 
 
-
-
+    @GetMapping("/airplanes")
+    public ResponseEntity<List<AirplaneResponseDTO>> getAll(){
+        List<AirplaneResponseDTO> airplanesResponseDTO = airplaneService.getAll();
+        return ResponseEntity.ok(airplanesResponseDTO);
+    }
 
 }

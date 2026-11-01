@@ -21,6 +21,9 @@ public abstract class Airplane {
     @Column(nullable = false, length = 50)
     private String modelName;
 
+    @Column(nullable = false)
+    private boolean deleted = false;
+
     public Airplane(){
 
     }
@@ -55,5 +58,13 @@ public abstract class Airplane {
 
     public void setModelName(String modelName) {
         this.modelName = modelName;
+    }
+
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
     }
 }
