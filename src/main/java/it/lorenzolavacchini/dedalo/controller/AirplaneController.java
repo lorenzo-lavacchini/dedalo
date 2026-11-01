@@ -3,6 +3,7 @@ package it.lorenzolavacchini.dedalo.controller;
 import it.lorenzolavacchini.dedalo.domain.Airplane;
 import it.lorenzolavacchini.dedalo.dto.airplane.AirplaneRequestDTO;
 import it.lorenzolavacchini.dedalo.dto.airplane.AirplaneResponseDTO;
+import it.lorenzolavacchini.dedalo.dto.airplane.PrivateAirplaneResponseDTO;
 import it.lorenzolavacchini.dedalo.service.AirplaneService;
 import jakarta.validation.Valid;
 import org.apache.coyote.Response;
@@ -38,5 +39,11 @@ public class AirplaneController {
     public ResponseEntity<String> delete(@PathVariable Long id){
         airplaneService.deleteLogic(id);
         return ResponseEntity.ok("Resource correctly deleted");
+    }
+
+    @GetMapping("/pilots/{pilotId}/airplanes")
+    public ResponseEntity<List<PrivateAirplaneResponseDTO>> getAirplanesByPilotId(@PathVariable Long pilotId){
+        List<PrivateAirplaneResponseDTO> airplanesDTO = airplaneService.getAirplanesByPilotId(pilotId);
+        return ResponseEntity.ok(airplanesDTO);
     }
 }

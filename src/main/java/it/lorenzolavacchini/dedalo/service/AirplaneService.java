@@ -11,6 +11,7 @@ import it.lorenzolavacchini.dedalo.mapper.PrivateAirplaneMapper;
 import it.lorenzolavacchini.dedalo.mapper.RentableAirplaneMapper;
 import it.lorenzolavacchini.dedalo.repository.AirplaneRepository;
 import it.lorenzolavacchini.dedalo.repository.PilotRepository;
+import it.lorenzolavacchini.dedalo.repository.PrivateAirplaneRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,13 +23,17 @@ public class AirplaneService {
 
     private final AirplaneRepository airplaneRepository;
     private final PilotRepository pilotRepository;
+    private final PrivateAirplaneRepository privateAirplaneRepository;
     private final PrivateAirplaneMapper privateAirplaneMapper;
     private final RentableAirplaneMapper rentableAirplaneMapper;
     private final AirplaneMapper airplaneMapper;
 
-    public AirplaneService(AirplaneRepository airplaneRepository, PilotRepository pilotRepository, PrivateAirplaneMapper privateAirplaneMapper, RentableAirplaneMapper rentableAirplaneMapper, AirplaneMapper airplaneMapper) {
+    public AirplaneService(AirplaneRepository airplaneRepository, PilotRepository pilotRepository, PrivateAirplaneRepository privateAirplaneRepository, PrivateAirplaneRepository privateAirplaneRepository1,
+                           PrivateAirplaneMapper privateAirplaneMapper, RentableAirplaneMapper rentableAirplaneMapper,
+                           AirplaneMapper airplaneMapper) {
         this.airplaneRepository = airplaneRepository;
         this.pilotRepository = pilotRepository;
+        this.privateAirplaneRepository = privateAirplaneRepository1;
         this.privateAirplaneMapper = privateAirplaneMapper;
         this.rentableAirplaneMapper = rentableAirplaneMapper;
         this.airplaneMapper = airplaneMapper;
@@ -86,6 +91,23 @@ public class AirplaneService {
 
         airplane.setDeleted(true);
         airplaneRepository.save(airplane);
+    }
+
+    public List<PrivateAirplaneResponseDTO> getAirplanesByPilotId(Long pilotId){
+
+        List<PrivateAirplane> airplanes = privateAirplaneRepository.findByDeletedFalseAndOwner_Id(pilotId);
+
+        List<PrivateAirplaneResponseDTO> airplanesDTO = new ArrayList<>();
+
+        if (airplanes.isEmpty()){
+            return airplanesDTO;
+        }
+
+        for (PrivateAirplane privateAirplane : airplanes){
+            airplanesDTO.add(privateAirplaneMapper.toResponseDTO(privateAirplane));
+        }
+
+        return airplanesDTO;
     }
 }
 
