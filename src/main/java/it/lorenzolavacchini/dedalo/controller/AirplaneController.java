@@ -2,6 +2,7 @@ package it.lorenzolavacchini.dedalo.controller;
 
 import it.lorenzolavacchini.dedalo.domain.Airplane;
 import it.lorenzolavacchini.dedalo.dto.airplane.AirplaneRequestDTO;
+import it.lorenzolavacchini.dedalo.dto.airplane.AirplaneResponseDTO;
 import it.lorenzolavacchini.dedalo.service.AirplaneService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
@@ -18,10 +19,12 @@ public class AirplaneController {
     }
 
     @PostMapping("/airplanes")
-    public ResponseEntity<Airplane> create(@Valid @RequestBody AirplaneRequestDTO airplaneRequestDTO){
-        Airplane airplane = airplaneService.createAirplane(airplaneRequestDTO);
-        return ResponseEntity.ok(airplane);
+    public ResponseEntity<AirplaneResponseDTO> create(@Valid @RequestBody AirplaneRequestDTO airplaneRequestDTO){
+        AirplaneResponseDTO airplaneResponseDTO = airplaneService.createAirplane(airplaneRequestDTO);
+        return ResponseEntity.ok(airplaneResponseDTO);
     }
+
+
 
 
 
