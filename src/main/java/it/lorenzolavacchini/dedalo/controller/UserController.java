@@ -74,10 +74,4 @@ public class UserController{
         userService.deleteLogic(id);
         return ResponseEntity.ok("Resource correctly deleted");
     }
-
-    @PatchMapping("/users/{userId}/pilot/association")
-    public ResponseEntity<PilotResponseDTO> makeAssociated(@PathVariable Long id){
-        PilotResponseDTO pilotResponseDTO = pilotService.makeAssociated(id);
-        return ResponseEntity.ok(pilotResponseDTO);
-    }
 }
