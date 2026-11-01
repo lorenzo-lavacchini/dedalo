@@ -29,6 +29,13 @@ public class AirplaneController {
     }
 
 
+    @GetMapping("/airplanes/{id}")
+    public ResponseEntity<AirplaneResponseDTO> getById(@PathVariable Long id){
+        AirplaneResponseDTO airplaneResponseDTO = airplaneService.getById(id);
+        return ResponseEntity.ok(airplaneResponseDTO);
+    }
+
+
     @GetMapping("/airplanes")
     public ResponseEntity<List<AirplaneResponseDTO>> getAll(){
         List<AirplaneResponseDTO> airplanesResponseDTO = airplaneService.getAll();

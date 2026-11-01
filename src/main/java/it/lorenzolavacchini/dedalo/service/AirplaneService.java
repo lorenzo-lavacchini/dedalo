@@ -66,6 +66,16 @@ public class AirplaneService {
         return airplaneResponseDTO;
     }
 
+    public AirplaneResponseDTO getById(Long id){
+
+        Airplane airplane = airplaneRepository.findByIdAndDeletedFalse(id)
+                .orElseThrow(() -> new AirplaneNotFoundException());
+
+        AirplaneResponseDTO airplaneResponseDTO = airplaneMapper.toResponseDTO(airplane);
+
+        return airplaneResponseDTO;
+    }
+
     public List<AirplaneResponseDTO> getAll(){
 
         List<Airplane> airplanes = airplaneRepository.findByDeletedFalse();
