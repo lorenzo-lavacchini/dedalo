@@ -5,6 +5,7 @@ import it.lorenzolavacchini.dedalo.dto.airplane.AirplaneRequestDTO;
 import it.lorenzolavacchini.dedalo.dto.airplane.AirplaneResponseDTO;
 import it.lorenzolavacchini.dedalo.service.AirplaneService;
 import jakarta.validation.Valid;
+import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,4 +34,9 @@ public class AirplaneController {
         return ResponseEntity.ok(airplanesResponseDTO);
     }
 
+    @DeleteMapping("/airplanes/{id}")
+    public ResponseEntity<String> delete(@PathVariable Long id){
+        airplaneService.deleteLogic(id);
+        return ResponseEntity.ok("Resource correctly deleted");
+    }
 }

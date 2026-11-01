@@ -3,6 +3,7 @@ package it.lorenzolavacchini.dedalo.service;
 import it.lorenzolavacchini.dedalo.domain.*;
 import it.lorenzolavacchini.dedalo.dto.airplane.*;
 import it.lorenzolavacchini.dedalo.exception.AirplaneAlreadyRegisteredException;
+import it.lorenzolavacchini.dedalo.exception.AirplaneNotFoundException;
 import it.lorenzolavacchini.dedalo.exception.AirplaneTypeNotValidException;
 import it.lorenzolavacchini.dedalo.exception.PilotNotFoundException;
 import it.lorenzolavacchini.dedalo.mapper.AirplaneMapper;
@@ -75,6 +76,16 @@ public class AirplaneService {
         }
 
         return airplanesDTO;
+    }
+
+    @Transactional
+    public void deleteLogic(Long id){
+
+        Airplane airplane = airplaneRepository.findByIdAndDeletedFalse(id)
+                .orElseThrow(() -> new AirplaneNotFoundException());
+
+        airplane.setDeleted(true);
+        airplaneRepository.save(airplane);
     }
 }
 
