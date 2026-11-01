@@ -52,6 +52,10 @@ public class GlobalExceptionHandler {
         return buildResponse(HttpStatus.CONFLICT, "Conflict", ex.getMessage());
     }
 
+    @ExceptionHandler(AirplaneAlreadyRegisteredException.class)
+    public ResponseEntity<Object> AirplaneAlreadyRegisteredException(AirplaneAlreadyRegisteredException ex) {
+        return buildResponse(HttpStatus.BAD_REQUEST, "Bad Request", ex.getMessage());
+    }
 
     // 4. IL "PARACADUTE": Gestisce qualsiasi altra eccezione imprevista (Errore 500)
     // Evita di mostrare log di sistema al client, ma risponde in modo pulito
