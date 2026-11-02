@@ -12,6 +12,7 @@ import it.lorenzolavacchini.dedalo.mapper.RentableAirplaneMapper;
 import it.lorenzolavacchini.dedalo.repository.AirplaneRepository;
 import it.lorenzolavacchini.dedalo.repository.PilotRepository;
 import it.lorenzolavacchini.dedalo.repository.PrivateAirplaneRepository;
+import it.lorenzolavacchini.dedalo.repository.RentableAirplaneRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,16 +28,18 @@ public class AirplaneService {
     private final PrivateAirplaneMapper privateAirplaneMapper;
     private final RentableAirplaneMapper rentableAirplaneMapper;
     private final AirplaneMapper airplaneMapper;
+    private final RentableAirplaneRepository rentableAirplaneRepository;
 
     public AirplaneService(AirplaneRepository airplaneRepository, PilotRepository pilotRepository, PrivateAirplaneRepository privateAirplaneRepository, PrivateAirplaneRepository privateAirplaneRepository1,
                            PrivateAirplaneMapper privateAirplaneMapper, RentableAirplaneMapper rentableAirplaneMapper,
-                           AirplaneMapper airplaneMapper) {
+                           AirplaneMapper airplaneMapper, RentableAirplaneRepository rentableAirplaneRepository) {
         this.airplaneRepository = airplaneRepository;
         this.pilotRepository = pilotRepository;
         this.privateAirplaneRepository = privateAirplaneRepository1;
         this.privateAirplaneMapper = privateAirplaneMapper;
         this.rentableAirplaneMapper = rentableAirplaneMapper;
         this.airplaneMapper = airplaneMapper;
+        this.rentableAirplaneRepository = rentableAirplaneRepository;
     }
 
     @Transactional
@@ -88,6 +91,22 @@ public class AirplaneService {
 
         for (Airplane airplane : airplanes){
             airplanesDTO.add(airplaneMapper.toResponseDTO(airplane));
+        }
+
+        return airplanesDTO;
+    }
+
+    public List<RentableAirplaneResponseDTO> getRentableAirplanes(){
+        List<RentableAirplane> airplanes = rentableAirplaneRepository.findAll();
+
+        List<RentableAirplaneResponseDTO> airplanesDTO = new ArrayList<>();
+
+        if (airplanes.isEmpty()){
+            return airplanesDTO;
+        }
+
+        for(RentableAirplane rentableAirplane : airplanes){
+            airplanesDTO.add(rentableAirplaneMapper.toResponseDTO(rentableAirplane));
         }
 
         return airplanesDTO;

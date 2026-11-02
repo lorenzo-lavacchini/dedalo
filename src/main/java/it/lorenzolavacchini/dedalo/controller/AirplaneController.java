@@ -4,6 +4,7 @@ import it.lorenzolavacchini.dedalo.domain.Airplane;
 import it.lorenzolavacchini.dedalo.dto.airplane.AirplaneRequestDTO;
 import it.lorenzolavacchini.dedalo.dto.airplane.AirplaneResponseDTO;
 import it.lorenzolavacchini.dedalo.dto.airplane.PrivateAirplaneResponseDTO;
+import it.lorenzolavacchini.dedalo.dto.airplane.RentableAirplaneResponseDTO;
 import it.lorenzolavacchini.dedalo.service.AirplaneService;
 import jakarta.validation.Valid;
 import org.apache.coyote.Response;
@@ -53,4 +54,13 @@ public class AirplaneController {
         List<PrivateAirplaneResponseDTO> airplanesDTO = airplaneService.getAirplanesByPilotId(pilotId);
         return ResponseEntity.ok(airplanesDTO);
     }
+
+    @GetMapping("/airplanes/rentable-airplanes")
+    public ResponseEntity<List<RentableAirplaneResponseDTO>> getRentableAirplanes(){
+        List<RentableAirplaneResponseDTO> airplanesDTO = airplaneService.getRentableAirplanes();
+        return ResponseEntity.ok(airplanesDTO);
+    }
+
+
+
 }
