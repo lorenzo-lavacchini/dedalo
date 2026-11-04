@@ -62,6 +62,16 @@ public class GlobalExceptionHandler {
         return buildResponse(HttpStatus.NOT_FOUND, "Not found", ex.getMessage());
     }
 
+    @ExceptionHandler(MinutesNotZeroException.class)
+    public ResponseEntity<Object> MinutesNotZeroException(MinutesNotZeroException ex) {
+        return buildResponse(HttpStatus.BAD_REQUEST, "Bad request", ex.getMessage());
+    }
+
+    @ExceptionHandler(RentableAirplaneNotFoundException.class)
+    public ResponseEntity<Object> RentableAirplaneNotFoundException(RentableAirplaneNotFoundException ex) {
+        return buildResponse(HttpStatus.NOT_FOUND, "Not found", ex.getMessage());
+    }
+
     // 4. IL "PARACADUTE": Gestisce qualsiasi altra eccezione imprevista (Errore 500)
     // Evita di mostrare log di sistema al client, ma risponde in modo pulito
    /* @ExceptionHandler(Exception.class)

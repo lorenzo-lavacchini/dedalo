@@ -21,6 +21,7 @@ public class RentalMapper {
         rentalResponseDTO.setEndTime(rental.getEndTime());
         rentalResponseDTO.setAirplaneId(rental.getRentedAirplane().getId());
         rentalResponseDTO.setPilotId(rental.getRenterPilot().getId());
+        rentalResponseDTO.setTotalRate(rental.getTotalRate());
 
         return rentalResponseDTO;
 

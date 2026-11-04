@@ -4,15 +4,21 @@ import it.lorenzolavacchini.dedalo.domain.*;
 import it.lorenzolavacchini.dedalo.dto.rental.RentalRequestDTO;
 import it.lorenzolavacchini.dedalo.dto.rental.RentalResponseDTO;
 import it.lorenzolavacchini.dedalo.dto.timeslots.TimeSlotDTO;
+import it.lorenzolavacchini.dedalo.exception.MinutesNotZeroException;
 import it.lorenzolavacchini.dedalo.exception.PastDateException;
+import it.lorenzolavacchini.dedalo.exception.PilotNotFoundException;
+import it.lorenzolavacchini.dedalo.exception.RentableAirplaneNotFoundException;
 import it.lorenzolavacchini.dedalo.mapper.RentalMapper;
 import it.lorenzolavacchini.dedalo.repository.AirplaneRepository;
 import it.lorenzolavacchini.dedalo.repository.PilotRepository;
 import it.lorenzolavacchini.dedalo.repository.RentableAirplaneRepository;
 import it.lorenzolavacchini.dedalo.repository.RentalRepository;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
+import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Service;
 
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -24,16 +30,18 @@ public class RentalService {
 
     private final RentalRepository rentalRepository;
     private final PilotRepository pilotRepository;
-    private final AirplaneRepository airplaneRepository;
     private final RentableAirplaneRepository rentableAirplaneRepository;
     private final RentalMapper rentalMapper;
+    private final PilotService pilotService;
+    private final RentableAirplaneService rentableAirplaneService;
 
-    public RentalService(RentalRepository rentalRepository, PilotRepository pilotRepository, AirplaneRepository airplaneRepository, RentableAirplaneRepository rentableAirplaneRepository, RentalMapper rentalMapper) {
+    public RentalService(RentalRepository rentalRepository, PilotRepository pilotRepository, RentableAirplaneRepository rentableAirplaneRepository, RentalMapper rentalMapper, PilotService pilotService, RentableAirplaneService rentableAirplaneService) {
         this.rentalRepository = rentalRepository;
         this.pilotRepository = pilotRepository;
-        this.airplaneRepository = airplaneRepository;
         this.rentableAirplaneRepository = rentableAirplaneRepository;
         this.rentalMapper = rentalMapper;
+        this.pilotService = pilotService;
+        this.rentableAirplaneService = rentableAirplaneService;
     }
 
     public List<TimeSlotDTO> getAvailableSlots(Long airplaneId, LocalDate date) {
@@ -89,7 +97,12 @@ public class RentalService {
         return timeslotsDTO;
     }
 
+    @Transactional
     public RentalResponseDTO create(RentalRequestDTO request) {
+
+        if(!rentableAirplaneService.exists(request.getAirplaneId())){
+            throw new RentableAirplaneNotFoundException();
+        }
 
         if (request.getDate().isBefore(LocalDate.now())) {
             throw new PastDateException();
@@ -113,6 +126,10 @@ public class RentalService {
         }
 
 
+        if (request.getStartTime().getMinute() != 0 || request.getEndTime().getMinute() != 0){
+            throw new MinutesNotZeroException();
+        }
+
         List<Rental> existingRentals = rentalRepository.findByRentedAirplane_IdAndDate(request.getAirplaneId(), request.getDate());
 
         for (Rental existing : existingRentals) {
@@ -123,9 +140,8 @@ public class RentalService {
             }
         }
 
-
         Pilot pilot = pilotRepository.findById(request.getPilotId())
-                .orElseThrow(() -> new EntityNotFoundException("Pilota non trovato"));
+                .orElseThrow(() -> new PilotNotFoundException());
 
         RentableAirplane airplane = rentableAirplaneRepository.findById(request.getAirplaneId())
                 .orElseThrow(() -> new EntityNotFoundException("Aeroplano non trovato"));
@@ -138,11 +154,21 @@ public class RentalService {
         rental.setStartTime(request.getStartTime());
         rental.setEndTime(request.getEndTime());
         rental.setBookedAt(LocalDateTime.now());
+        rental.setTotalRate(calculateTotalRate(airplane, rental.getStartTime(), rental.getEndTime()));
 
         rentalRepository.save(rental);
 
         RentalResponseDTO rentalResponseDTO = rentalMapper.toRentalResponseDTO(rental);
+
         return rentalResponseDTO;
     }
 
+    private int calculateTotalRate(RentableAirplane rentableAirplane, LocalTime startTime, LocalTime endTime){
+
+        Duration duration = Duration.between(startTime, endTime);
+        Long hoursDuration = duration.toHours();
+        int totalRate = Math.toIntExact(rentableAirplane.getHourlyRate() * hoursDuration);
+        return totalRate;
+
+    }
 }

@@ -14,6 +14,8 @@ public class RentalResponseDTO {
 
     private LocalTime endTime;
 
+    private int totalRate;
+
     public Long getPilotId() {
         return pilotId;
     }
@@ -46,4 +48,11 @@ public class RentalResponseDTO {
         this.endTime = endTime;
     }
 
+    public int getTotalRate() {
+        return totalRate;
+    }
+
+    public void setTotalRate(int totalRate) {
+        this.totalRate = totalRate;
+    }
 }

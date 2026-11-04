@@ -15,9 +15,11 @@ public class RentalRequestDTO {
     private Long airplaneId;
 
     @NotNull(message = "L'orario di inizio noleggio è obbligatorio")
+    @JsonFormat(pattern = "HH:mm")
     private LocalTime startTime;
 
     @NotNull(message = "L'orario di fine noleggio è obbligatorio")
+    @JsonFormat(pattern = "HH:mm")
     private LocalTime endTime;
 
     @NotNull(message = "La data noleggio è obbligatoria")
