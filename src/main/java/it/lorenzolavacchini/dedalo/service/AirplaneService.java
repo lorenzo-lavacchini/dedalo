@@ -96,22 +96,6 @@ public class AirplaneService {
         return airplanesDTO;
     }
 
-    public List<RentableAirplaneResponseDTO> getRentableAirplanes(){
-        List<RentableAirplane> airplanes = rentableAirplaneRepository.findAll();
-
-        List<RentableAirplaneResponseDTO> airplanesDTO = new ArrayList<>();
-
-        if (airplanes.isEmpty()){
-            return airplanesDTO;
-        }
-
-        for(RentableAirplane rentableAirplane : airplanes){
-            airplanesDTO.add(rentableAirplaneMapper.toResponseDTO(rentableAirplane));
-        }
-
-        return airplanesDTO;
-    }
-
     @Transactional
     public void deleteLogic(Long id){
 

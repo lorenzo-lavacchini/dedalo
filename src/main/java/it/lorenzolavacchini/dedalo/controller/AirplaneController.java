@@ -54,13 +54,4 @@ public class AirplaneController {
         List<PrivateAirplaneResponseDTO> airplanesDTO = airplaneService.getAirplanesByPilotId(pilotId);
         return ResponseEntity.ok(airplanesDTO);
     }
-
-    @GetMapping("/airplanes/rentable-airplanes")
-    public ResponseEntity<List<RentableAirplaneResponseDTO>> getRentableAirplanes(){
-        List<RentableAirplaneResponseDTO> airplanesDTO = airplaneService.getRentableAirplanes();
-        return ResponseEntity.ok(airplanesDTO);
-    }
-
-
-
 }

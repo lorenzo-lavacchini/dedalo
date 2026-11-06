@@ -1,11 +1,15 @@
 package it.lorenzolavacchini.dedalo.dto.timeslots;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.time.LocalTime;
 
 public class TimeSlotDTO {
 
+    @JsonFormat(pattern = "HH:mm")
     private LocalTime startTime;
 
+    @JsonFormat(pattern = "HH:mm")
     private LocalTime endTime;
 
     public LocalTime getStartTime() {
