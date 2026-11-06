@@ -100,6 +100,20 @@ public class RentalService {
     @Transactional
     public RentalResponseDTO create(RentalRequestDTO request) {
 
+
+        Pilot pilot = pilotService.getById(request.getPilotId());
+
+
+        LocalDate licenceExpirationDate = pilot.getAbilitationProfile().getLicenceExpirationDate();
+
+        if(licenceExpirationDate.isBefore(LocalDate.now())){
+            throw new LicenceExpiredException();
+        }
+
+        if(!pilot.isAssociated()){
+            throw new PilotNotAssociatedException();
+        }
+
         if(!rentableAirplaneService.exists(request.getAirplaneId())){
             throw new RentableAirplaneNotFoundException();
         }
@@ -144,11 +158,7 @@ public class RentalService {
             }
         }
 
-        Pilot pilot = pilotRepository.findById(request.getPilotId())
-                .orElseThrow(() -> new PilotNotFoundException());
-
-        RentableAirplane airplane = rentableAirplaneRepository.findById(request.getAirplaneId())
-                .orElseThrow(() -> new EntityNotFoundException("Airplane not found"));
+        RentableAirplane airplane = rentableAirplaneService.getById(request.getAirplaneId());
 
         Rental rental = new Rental();
         rental.setRenterPilot(pilot);
