@@ -110,30 +110,25 @@ public class RentalService {
 
 
         if (request.getDate().isEqual(LocalDate.now()) && request.getStartTime().isBefore(LocalTime.now())) {
-            throw new IllegalArgumentException("L'orario di inizio non può essere nel passato");
+            throw new IllegalArgumentException("Start time can't be in the past");
         }
 
 
         if (!request.getStartTime().isBefore(request.getEndTime())) {
-            throw new IllegalArgumentException("L'orario di inizio deve essere precedente a quello di fine");
+            throw new IllegalArgumentException("Star time must precede end time");
         }
 
 
         LocalTime limitStart = LocalTime.of(8, 0);
         LocalTime limitEnd = LocalTime.of(20, 0);
         if (request.getStartTime().isBefore(limitStart) || request.getEndTime().isAfter(limitEnd)) {
-            throw new IllegalArgumentException("I noleggi sono consentiti solo dalle 08:00 alle 20:00");
+            throw new IllegalArgumentException("Rentals are possibile only from 08:00 to 20:00");
         }
 
 
         if (request.getStartTime().getMinute() != 0 || request.getEndTime().getMinute() != 0){
             throw new MinutesNotZeroException();
         }
-
-
-        rentableAirplaneService.getById(request.getAirplaneId());
-
-        airplaneService.getById(request.getAirplaneId());
 
         if (!pilotService.canPilotAirplane(rentableAirplaneService.getById(request.getAirplaneId()), pilotService.getById(request.getPilotId()))){
             throw new PilotNotAbilitatedForThisAirplaneException();
@@ -145,7 +140,7 @@ public class RentalService {
 
             if (request.getStartTime().isBefore(existing.getEndTime()) &&
                     request.getEndTime().isAfter(existing.getStartTime())) {
-                throw new IllegalArgumentException("L'aeroplano è già occupato in questa fascia oraria");
+                throw new IllegalArgumentException("Airplane is already busy in this time slot");
             }
         }
 
@@ -153,8 +148,7 @@ public class RentalService {
                 .orElseThrow(() -> new PilotNotFoundException());
 
         RentableAirplane airplane = rentableAirplaneRepository.findById(request.getAirplaneId())
-                .orElseThrow(() -> new EntityNotFoundException("Aeroplano non trovato"));
-
+                .orElseThrow(() -> new EntityNotFoundException("Airplane not found"));
 
         Rental rental = new Rental();
         rental.setRenterPilot(pilot);

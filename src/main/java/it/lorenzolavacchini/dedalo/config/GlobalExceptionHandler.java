@@ -77,7 +77,6 @@ public class GlobalExceptionHandler {
         return buildResponse(HttpStatus.CONFLICT, "Conflict", ex.getMessage());
     }
 
-
     // 4. IL "PARACADUTE": Gestisce qualsiasi altra eccezione imprevista (Errore 500)
     // Evita di mostrare log di sistema al client, ma risponde in modo pulito
    /* @ExceptionHandler(Exception.class)

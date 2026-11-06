@@ -1,9 +1,13 @@
 package it.lorenzolavacchini.dedalo.mapper;
 
 import it.lorenzolavacchini.dedalo.domain.Rental;
+import it.lorenzolavacchini.dedalo.dto.rental.RentalRequestDTO;
 import it.lorenzolavacchini.dedalo.dto.rental.RentalResponseDTO;
 import it.lorenzolavacchini.dedalo.repository.RentalRepository;
+import it.lorenzolavacchini.dedalo.service.RentalService;
 import org.springframework.stereotype.Component;
+
+import java.time.LocalDateTime;
 
 @Component
 public class RentalMapper {
@@ -26,6 +30,5 @@ public class RentalMapper {
         return rentalResponseDTO;
 
     }
-
 
 }
