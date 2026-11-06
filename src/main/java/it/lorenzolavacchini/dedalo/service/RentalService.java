@@ -4,18 +4,14 @@ import it.lorenzolavacchini.dedalo.domain.*;
 import it.lorenzolavacchini.dedalo.dto.rental.RentalRequestDTO;
 import it.lorenzolavacchini.dedalo.dto.rental.RentalResponseDTO;
 import it.lorenzolavacchini.dedalo.dto.timeslots.TimeSlotDTO;
-import it.lorenzolavacchini.dedalo.exception.MinutesNotZeroException;
-import it.lorenzolavacchini.dedalo.exception.PastDateException;
-import it.lorenzolavacchini.dedalo.exception.PilotNotFoundException;
-import it.lorenzolavacchini.dedalo.exception.RentableAirplaneNotFoundException;
+import it.lorenzolavacchini.dedalo.exception.*;
+import it.lorenzolavacchini.dedalo.mapper.AirplaneMapper;
 import it.lorenzolavacchini.dedalo.mapper.RentalMapper;
-import it.lorenzolavacchini.dedalo.repository.AirplaneRepository;
 import it.lorenzolavacchini.dedalo.repository.PilotRepository;
 import it.lorenzolavacchini.dedalo.repository.RentableAirplaneRepository;
 import it.lorenzolavacchini.dedalo.repository.RentalRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
-import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
@@ -34,14 +30,18 @@ public class RentalService {
     private final RentalMapper rentalMapper;
     private final PilotService pilotService;
     private final RentableAirplaneService rentableAirplaneService;
+    private final AirplaneService airplaneService;
+    private final AirplaneMapper airplaneMapper;
 
-    public RentalService(RentalRepository rentalRepository, PilotRepository pilotRepository, RentableAirplaneRepository rentableAirplaneRepository, RentalMapper rentalMapper, PilotService pilotService, RentableAirplaneService rentableAirplaneService) {
+    public RentalService(RentalRepository rentalRepository, PilotRepository pilotRepository, RentableAirplaneRepository rentableAirplaneRepository, RentalMapper rentalMapper, PilotService pilotService, RentableAirplaneService rentableAirplaneService, AirplaneService airplaneService, AirplaneMapper airplaneMapper) {
         this.rentalRepository = rentalRepository;
         this.pilotRepository = pilotRepository;
         this.rentableAirplaneRepository = rentableAirplaneRepository;
         this.rentalMapper = rentalMapper;
         this.pilotService = pilotService;
         this.rentableAirplaneService = rentableAirplaneService;
+        this.airplaneService = airplaneService;
+        this.airplaneMapper = airplaneMapper;
     }
 
     public List<TimeSlotDTO> getAvailableSlots(Long airplaneId, LocalDate date) {
@@ -128,6 +128,15 @@ public class RentalService {
 
         if (request.getStartTime().getMinute() != 0 || request.getEndTime().getMinute() != 0){
             throw new MinutesNotZeroException();
+        }
+
+
+        rentableAirplaneService.getById(request.getAirplaneId());
+
+        airplaneService.getById(request.getAirplaneId());
+
+        if (!pilotService.canPilotAirplane(rentableAirplaneService.getById(request.getAirplaneId()), pilotService.getById(request.getPilotId()))){
+            throw new PilotNotAbilitatedForThisAirplaneException();
         }
 
         List<Rental> existingRentals = rentalRepository.findByRentedAirplane_IdAndDate(request.getAirplaneId(), request.getDate());

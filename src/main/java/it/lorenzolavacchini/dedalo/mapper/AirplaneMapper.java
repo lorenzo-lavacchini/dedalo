@@ -25,4 +25,5 @@ public class AirplaneMapper {
         }
         throw new IllegalArgumentException("Type of airplane entity is unknown");
     }
+
 }

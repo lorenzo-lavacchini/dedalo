@@ -2,6 +2,7 @@ package it.lorenzolavacchini.dedalo.service;
 
 import it.lorenzolavacchini.dedalo.domain.RentableAirplane;
 import it.lorenzolavacchini.dedalo.dto.airplane.RentableAirplaneResponseDTO;
+import it.lorenzolavacchini.dedalo.exception.RentableAirplaneNotFoundException;
 import it.lorenzolavacchini.dedalo.mapper.RentableAirplaneMapper;
 import it.lorenzolavacchini.dedalo.repository.RentableAirplaneRepository;
 import org.springframework.stereotype.Service;
@@ -38,6 +39,14 @@ public class RentableAirplaneService {
         }
 
         return airplanesDTO;
+    }
+
+    public RentableAirplane getById(Long id){
+
+        RentableAirplane rentableAirplane = rentableAirplaneRepository.findById(id)
+                .orElseThrow(() -> new RentableAirplaneNotFoundException());
+
+        return rentableAirplane;
     }
 
 }

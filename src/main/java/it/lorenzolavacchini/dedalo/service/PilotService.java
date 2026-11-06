@@ -1,9 +1,6 @@
 package it.lorenzolavacchini.dedalo.service;
 
-import it.lorenzolavacchini.dedalo.domain.AbilitationProfile;
-import it.lorenzolavacchini.dedalo.domain.Logbook;
-import it.lorenzolavacchini.dedalo.domain.Pilot;
-import it.lorenzolavacchini.dedalo.domain.User;
+import it.lorenzolavacchini.dedalo.domain.*;
 import it.lorenzolavacchini.dedalo.dto.abilitationprofile.AbilitationProfileRequestDTO;
 import it.lorenzolavacchini.dedalo.dto.abilitationprofile.AbilitationProfileResponseDTO;
 import it.lorenzolavacchini.dedalo.dto.pilot.PilotResponseDTO;
@@ -82,6 +79,14 @@ public class PilotService {
         return pilotResponseDTO;
     }
 
+    public Pilot getById(Long id){
+
+        Pilot pilot = pilotRepository.findById(id)
+                .orElseThrow(() -> new PilotNotFoundException());
+
+        return pilot;
+    }
+
     public AbilitationProfileResponseDTO getAbilitations(Long userId){
 
         User user = userRepository.findById(userId)
@@ -119,5 +124,20 @@ public class PilotService {
         userRepository.save(user);
         return abilitationProfileResponseDTO;
     }
+
+    public boolean canPilotAirplane(Airplane airplane, Pilot pilot){
+
+        if (airplane.isAdvanced() && !pilot.getAbilitationProfile().isAdvancedAbilitation()){
+            return false;
+        }
+
+        return true;
+
+    }
+
+
+
+
+
 }
 
