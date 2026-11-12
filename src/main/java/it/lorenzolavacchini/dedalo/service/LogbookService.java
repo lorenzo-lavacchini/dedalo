@@ -31,17 +31,17 @@ public class LogbookService {
         User user = userRepository.findByIdAndDeletedFalse(userId)
                 .orElseThrow(() -> new UserNotFoundException());
 
-        if(user.getPilotRole() == null){
+        Pilot pilot = user.getPilotRole();
+
+        if (pilot == null){
             throw new UserIsNotPilotException();
         }
 
-        Pilot pilot = user.getPilotRole();
+        Logbook logbook = pilot.getLogbook();
 
-        if (pilot.getLogbook() == null){
+        if (logbook == null){
             throw new LogbookIsNullException();
         }
-
-        Logbook logbook = pilot.getLogbook();
 
         LogbookDTO logbookDTO = logbookMapper.toLogbookDTO(logbook);
 
