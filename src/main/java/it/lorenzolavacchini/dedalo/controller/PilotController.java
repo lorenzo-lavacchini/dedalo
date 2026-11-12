@@ -5,6 +5,7 @@ import it.lorenzolavacchini.dedalo.domain.Pilot;
 import it.lorenzolavacchini.dedalo.domain.User;
 import it.lorenzolavacchini.dedalo.dto.abilitationprofile.AbilitationProfileRequestDTO;
 import it.lorenzolavacchini.dedalo.dto.abilitationprofile.AbilitationProfileResponseDTO;
+import it.lorenzolavacchini.dedalo.dto.logbook.LogbookDTO;
 import it.lorenzolavacchini.dedalo.dto.pilot.PilotResponseDTO;
 import it.lorenzolavacchini.dedalo.exception.UserNotFoundException;
 import it.lorenzolavacchini.dedalo.service.PilotService;
@@ -45,5 +46,4 @@ public class PilotController {
         AbilitationProfileResponseDTO abilitationProfileResponseDTO = pilotService.updateAbilitations(userId, abilitationProfileRequestDTO);
         return ResponseEntity.ok(abilitationProfileResponseDTO);
     }
-
 }

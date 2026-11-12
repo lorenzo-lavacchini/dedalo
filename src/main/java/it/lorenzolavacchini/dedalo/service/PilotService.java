@@ -134,10 +134,5 @@ public class PilotService {
         return true;
 
     }
-
-
-
-
-
 }
 
