@@ -22,7 +22,7 @@ public class User {
     @Column(nullable = false, length = 50, unique = true)
     private String email;
 
-    @Column(nullable = false, length = 50)
+    @Column(nullable = false, length = 255)
     private String password;
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -49,7 +49,7 @@ public class User {
         this.setPassword(password);
         this.setStaffMemberRole(null);
         this.setPilotRole(null);
-        this.setPilotRole(null);
+        this.setAdminRole(null);
         this.setDeleted(false);
     }
 
